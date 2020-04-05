@@ -12,7 +12,7 @@
                            data-thickness=".15"/>
                 </div>--}}
                 <div class="text-right">
-                    <h3 class="mb-1"> {{$totalEmployer}} </h3>
+                    <h3 class="mb-1">  </h3>
                     <p class="text-muted mb-1">Total Users</p>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                            data-thickness=".15"/>
                 </div>--}}
                 <div class="text-right">
-                    <h3 class="mb-1"> {{$totalEmployee}} </h3>
+                    <h3 class="mb-1">  </h3>
                     <p class="text-muted mb-1">Total Employees</p>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                            data-thickness=".15"/>
                 </div>--}}
                 <div class="text-right">
-                    <h3 class="mb-1"> {{$tickets}} </h3>
+                    <h3 class="mb-1">  </h3>
                     <p class="text-muted mb-1">Complaints</p>
                 </div>
             </div>
