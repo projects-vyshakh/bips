@@ -155,4 +155,28 @@ trait AlertMessages{
         return $msg;
     }
 
+    public function markedSuccessfullyMessage($param){
+        if(!empty($param)){
+            $msg    =   ["success"=>$param." has been marked successfully."];
+        }
+        else{
+            $msg    =   ["success"=>"Data has been marked successfully."];
+        }
+
+        return $msg;
+    }
+    public function somethingWrongErrorMessage(){
+        $msg    =   ["error"=>"Something went wrong. Please try again."];
+        return $msg;
+    }
+
+    public function clockInMessage(){
+        $msg    =   ["warning"=>"You are already Clocked-Out. Please Clock-In."];
+        return $msg;
+    }
+    public function clockOutMessage(){
+        $msg    =   ["warning"=>"You are already Clocked-In. Please Clock-Out."];
+        return $msg;
+    }
+
 }

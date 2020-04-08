@@ -70,12 +70,16 @@ Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'admin'], function () {
 
 //Agents Controller
 //---------------------------------------------------------------------------------
-Route::group([ 'middleware' => ['auth','web','rolesAndScreen','attendanceMarked'], 'prefix'=>'agent'], function () {
+Route::group([ 'middleware' => ['auth','web','rolesAndScreen'], 'prefix'=>'agent'], function () {
     Route::any('/dashboard','Users\UsersController@showDashboard');
-});
-Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'agent'], function () {
     Route::any('/clock-in','Attendance\ClockInController@showClockIn');
+    Route::any('/clock-out','Attendance\ClockOutController@showClockOut');
+});
+
+Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'agent'], function () {
+
     Route::any('/handleClockIn','Attendance\ClockInController@handleClockIn');
+    Route::any('/handleClockOut','Attendance\ClockOutController@handleClockOut');
 
 });
 //---------------------------------------------------------------------------------

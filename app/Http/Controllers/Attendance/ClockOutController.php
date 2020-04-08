@@ -8,7 +8,7 @@ use App\Models\ClockOut;
 use App\Traits\FunctionTraits;
 use Illuminate\Http\Request;
 
-class ClockInController extends Controller
+class ClockoutController extends Controller
 {
     use FunctionTraits;
 
@@ -20,16 +20,16 @@ class ClockInController extends Controller
         $this->clockOut =   new ClockOut();
     }
 
-    public function showClockIn(Request $request){
+    public function showClockOut(Request $request){
         $parameters =   $this->generalFunctions($request);
 
 
-        return view('attendance.clockin',$parameters);
+        return view('attendance.clockout',$parameters);
     }
 
-    public function handleClockIn(Request $request){
+    public function handleClockOut(Request $request){
         $parameters =   $this->generalFunctions($request);
-        $response   =   $this->clockIn->addClockIn($request);
+        $response   =   $this->clockOut->addClockOut($request);
 
         return back()->with($response['message'])->withInput();
     }

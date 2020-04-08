@@ -3,7 +3,7 @@
 
 @section('contents')
     @include('alerts.flash-messages')
-    @include('layouts.components.attendance.clockin')
+    @include('layouts.components.attendance.clockout')
 
 
 @endsection

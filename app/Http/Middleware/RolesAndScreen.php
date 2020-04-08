@@ -29,9 +29,14 @@ class RolesAndScreen
 
 
 
+
         if(!empty($screenData)){
 
+
+
             $rolesScreensData   =   RolesScreen::where('role_id',$roles)->where('screen_id',$screenData['id'])->where('is_active','Y')->first();
+
+
 
             if(!empty($rolesScreensData)){
                 return $next($request);
