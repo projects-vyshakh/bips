@@ -49,7 +49,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="order_type">Order Type <span class="text-danger">*</span></label>{{$data['id_workorder_type']}}
+                        <label for="order_type">Order Type <span class="text-danger">*</span></label>
                         {!! Form::select('order_type',$orderType,$data['id_workorder_type'],['class'=>'form-control']) !!}
                     </div>
                 </div> <!-- end col -->
