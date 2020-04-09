@@ -10,9 +10,9 @@ $(document).ready(function() {
                 firstname           :   "required",
                 lastname            :   "required",
                 designation         :   "required",
-                password            :   "required",
+                //password            :   "required",
                 cpassword           :   {
-                    "required"      :   true,
+                    "required"      :   false,
                     "equalTo"       :   "#password",
                 },
                 email               :   {
