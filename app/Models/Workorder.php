@@ -58,7 +58,7 @@ class Workorder extends Model
         if($roles['short_name'] == "admin"){
             if(!empty($uuid)){
 
-                $data   =   Workorder::leftJoin('Users as u','u.id','=','workorder.id_agent')
+                $data   =   Workorder::leftJoin('users as u','u.id','=','workorder.id_agent')
                     ->leftJoin('workorder_type as wt','wt.id','=','workorder.id_workorder_type')
                     ->where('workorder.uuid','=',$uuid)
                     ->select('u.id','u.name','workorder.*','workorder.uuid as wo_uuid')
