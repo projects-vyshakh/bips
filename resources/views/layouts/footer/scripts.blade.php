@@ -19,9 +19,34 @@
 <!-- validation init -->
 <script src="../public/assets/js/pages/form-validation.init.js"></script>
 
+{{--Clocker Script--}}
+<script type="text/javascript" src="../public/assets/libs/tiny-timer/dist/jquery.tinytimer.js"></script>
+
 
 <script>
     $('.alert').delay(3000).fadeOut(400)
+</script>
+
+<script>
+    var clocker =   $('.clocker').val();
+    var split   =   clocker.split(":");
+    var hours   =   split[0];
+    var minutes =   split[1];
+    var seconds =   split[2];
+
+
+
+
+    var hoursToSec      =   hours*3600;
+    var minToSec        =   minutes*60;
+    var totalSec        =   parseInt(hoursToSec)+parseInt(minToSec)+parseInt(seconds);
+
+
+
+    var options = {
+        timerCounter: totalSec*1000
+    };
+    $(".clocker-div").timer( options ).start();
 </script>
 
 

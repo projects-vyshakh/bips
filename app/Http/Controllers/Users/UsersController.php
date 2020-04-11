@@ -27,6 +27,8 @@ class UsersController extends Controller
 
         $parameters =   $this->generalFunctions($request);
 
+        //dd($parameters);
+
 
         return view('users.dashboard',$parameters);
 

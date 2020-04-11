@@ -1,0 +1,17 @@
+{
+  "-W116": true,
+  "boss": true,
+  "curly": true,
+  "eqeqeq": true,
+  "eqnull": true,
+  "expr": true,
+  "immed": true,
+  "noarg": true,
+  "onevar": true,
+  "quotmark": "double",
+  "unused": true,
+  "node": true,
+  "globals": {
+    "jQuery": true
+  }
+}

@@ -1,4 +1,5 @@
 
+
 <div class="row">
     <div class="col-lg-12 col-xl-12">
         <div class="card-box">
@@ -13,8 +14,8 @@
                     </div> <!-- end col -->
                 </div>
 
-                <div class="text-right">
-                    <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="fe-clock"></i> Clock-In</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-outline-primary waves-effect waves-light mt-2 btn-lg"><i class="fe-clock"></i> Clock-In</button>
                 </div>
 
             {!! Form::close() !!}
@@ -22,9 +23,19 @@
     </div>
 
 
+
+
+
+
 </div>
 
 @section('scripts')
     @include('layouts.components.scripts.validations')
     <script src="../public/assets/js/attendance/clockin.js"></script>
+
+
+
+
+
+
 @endsection

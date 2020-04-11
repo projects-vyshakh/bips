@@ -223,6 +223,21 @@ class User extends Authenticatable
             return $userData;
         }
     }
+    public function getUserDataWithId($id){
+
+
+        if(!empty($id)){
+            $userData   =   User::where('users.id',$id)
+                ->leftJoin('users_details As ud','ud.user_id','=','users.id')
+                ->leftJoin('roles as r','r.id','=','users.roles')
+                ->where('users.is_delete',0)
+                ->select('users.id','users.uuid','users.name as name','users.email','users.status as user_status','r.short_name as role','r.name as role_name','r.id as role_id','ud.*')->first();
+
+            //dd($userData);
+
+            return $userData;
+        }
+    }
 
     public function getUsersTotalCountWithRoles($idRoles){
         if(!empty($idRoles)){
@@ -251,4 +266,6 @@ class User extends Authenticatable
         return $response;
 
     }
+
+
 }

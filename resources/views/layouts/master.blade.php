@@ -41,6 +41,7 @@
         </div>
 
 
+
         {{--Left Navigation--}}
         @include('layouts.navigation.left')
 

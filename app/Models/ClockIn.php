@@ -3,15 +3,21 @@
 namespace App\Models;
 
 use App\Traits\AlertMessages;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class ClockIn extends Model
 {
+    protected $user;
+    public $currentDate;
+    public $currentTime;
+
     use AlertMessages;
 
     protected  $table       =   "clock_in";
     protected  $primaryKey  =   "id";
+
 
 
     public function addClockIn($request){
@@ -85,5 +91,24 @@ class ClockIn extends Model
         }
 
         return $response;
+    }
+
+    public function userLastClockIn($id){
+        $this->user     =   new User();
+        $userData       =   $this->user->getUserDataWithId($id);
+        $currentDate    =   date('Y-m-d');
+        $currentTime    =   date('h:i A');
+
+        //echo $currentDate."--".$currentTime."--".$userData['uuid'];
+
+        $data   =   ClockIn::orderBy('date','desc')->orderBy('time','desc')
+            ->where('uuid',$userData['uuid'])
+            ->where('date',$currentDate)
+            ->where('time','<=',$currentTime)
+            ->first();
+
+        //dd($data);
+
+        return $data;
     }
 }
