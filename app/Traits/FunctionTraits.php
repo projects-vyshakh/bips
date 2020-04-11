@@ -26,6 +26,7 @@ trait FunctionTraits{
         $idLoggedRole       =   Auth::user()->roles;
         $currentUrl         =   $request->path();
         $currentDateTime    =   date('Y-m-d h:i:s');
+        $time               =   "";
 
 
 
@@ -36,15 +37,12 @@ trait FunctionTraits{
         $roles                  =   $this->getRolesDetails($idLoggedRole);
         $rolesList              =   $this->getRoles();
         $clockIn                =   $this->getLastClockIn();
-        $dateTime1              =   $clockIn['date']." ".date('h:i:s',strtotime($clockIn['time']));
 
-        //dd($dateTime1);
-
-
-
-        $convertedDateTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$dateTime1, 'dateTime2'=>$currentDateTime]);
-        $time                   =   $convertedDateTime['hours'].":".$convertedDateTime['minutes'].":".$convertedDateTime['seconds'];
-
+        if(!empty($clockIn)){
+            $dateTime1              =   $clockIn['date']." ".date('h:i:s',strtotime($clockIn['time']));
+            $convertedDateTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$dateTime1, 'dateTime2'=>$currentDateTime]);
+            $time                   =   $convertedDateTime['hours'].":".$convertedDateTime['minutes'].":".$convertedDateTime['seconds'];
+        }
 
 
         return $paramArray =   [
