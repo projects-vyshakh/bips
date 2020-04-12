@@ -67,9 +67,9 @@ return [
     |
     */
 
-    //'timezone' => 'America/New_York',
+    'timezone' => 'America/New_York',
     //'timezone' => 'UTC',
-    'timezone' => 'Asia/Dhaka',
+    //'timezone' => 'Asia/Dhaka',
 
     /*
     |--------------------------------------------------------------------------

@@ -72,8 +72,9 @@ Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'admin'], function () {
 //---------------------------------------------------------------------------------
 Route::group([ 'middleware' => ['auth','web','rolesAndScreen'], 'prefix'=>'agent'], function () {
     Route::any('/dashboard','Users\UsersController@showDashboard');
-    Route::any('/clock-in','Attendance\ClockInController@showClockIn');
-    Route::any('/clock-out','Attendance\ClockOutController@showClockOut');
+    Route::any('/punch','Attendance\AttendanceController@showPunch');
+    Route::any('/time-cards','Attendance\AttendanceController@showTimeCards');
+
 });
 
 Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'agent'], function () {

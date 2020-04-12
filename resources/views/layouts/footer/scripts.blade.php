@@ -49,5 +49,25 @@
     $(".clocker-div").timer( options ).start();
 </script>
 
+//Showing Current Timer
+<script>
+  var currentTimer  =   $('.current-time').val();
+  var csplit   =   currentTimer.split(":");
+  var chours   =   csplit[0];
+  var cminutes =   csplit[1];
+  var cseconds =   csplit[2];
+
+  var choursToSec      =   chours*3600;
+  var cminToSec        =   cminutes*60;
+  var ctotalSec        =   parseInt(choursToSec)+parseInt(cminToSec)+parseInt(cseconds);
+
+  var options = {
+      timerCounter: ctotalSec*1000
+  };
+  $(".current-timer").timer( options ).start();
+
+
+</script>
+
 
 @yield('scripts')

@@ -70,21 +70,32 @@ trait FunctionTraits{
         $dateTime1  =   strtotime($param['dateTime1']);
         $dateTime2  =   strtotime($param['dateTime2']);
 
+        $years      =   0;
+        $months     =   0;
+        $days       =   0;
+        $hours      =   0;
+        $minutes    =   0;
+        $seconds    =   0;
+
+        if($dateTime2 > $dateTime1){
+            $diff       =   abs($dateTime2 - $dateTime1);
+
+            //dd($diff);
+            $years      =   floor($diff / (365*60*60*24));
+            $months     =   floor(($diff - $years * 365*60*60*24)/ (30*60*60*24));
+            $days       =   floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+            $hours      =   floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60));
+            $minutes    =   floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24- $hours*60*60)/ 60);
+            $seconds    =   floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60 - $minutes*60));
+
+            $hours      =   ($hours<10 && $hours!=0)?"0".$hours: $hours;
+            $minutes    =   ($minutes<10 && $minutes!=0)?"0".$minutes: $minutes;
+            $seconds    =   ($seconds<10 && $seconds!=0)?"0".$seconds: $seconds;
+        }
 
 
-        $diff       =   abs($dateTime2 - $dateTime1);
 
-        //dd($diff);
-        $years      =   floor($diff / (365*60*60*24));
-        $months     =   floor(($diff - $years * 365*60*60*24)/ (30*60*60*24));
-        $days       =   floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-        $hours      =   floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60));
-        $minutes    =   floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24- $hours*60*60)/ 60);
-        $seconds    =   floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60 - $minutes*60));
 
-        $hours      =   ($hours<10)?"0".$hours: $hours;
-        $minutes    =   ($minutes<10)?"0".$minutes: $minutes;
-        $seconds    =   ($seconds<10)?"0".$seconds: $seconds;
 
 
         return ['years'=>$years, 'months'=>$months,'days'=>$days, 'hours'=>$hours, 'minutes'=>$minutes, 'seconds'=>$seconds];

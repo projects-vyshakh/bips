@@ -13,6 +13,7 @@ trait ScreenTraits{
 
 
     public function currentScreenDetails($currentUrl){
+
         if(!empty($currentUrl)){
             $data   =   Screens::where('url',$currentUrl)->where('is_screen_active','Y')->first();
             $response['status'] =   "success";

@@ -20,6 +20,11 @@ class ClockInController extends Controller
         $this->clockOut =   new ClockOut();
     }
 
+
+    public function punch(Request $request){
+        $parameters =   $this->generalFunctions($request);
+        return view('attendance.punch',$parameters);
+    }
     public function showClockIn(Request $request){
         $parameters =   $this->generalFunctions($request);
 

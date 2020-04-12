@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\AlertMessages;
+use App\Traits\FunctionTraits;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,7 @@ class ClockIn extends Model
     public $currentTime;
 
     use AlertMessages;
+    use FunctionTraits;
 
     protected  $table       =   "clock_in";
     protected  $primaryKey  =   "id";
@@ -98,6 +100,7 @@ class ClockIn extends Model
         $userData       =   $this->user->getUserDataWithId($id);
         $currentDate    =   date('Y-m-d');
         $currentTime    =   date('h:i A');
+        $idClockIn      =   "";
 
         //echo $currentDate."--".$currentTime."--".$userData['uuid'];
 
@@ -107,8 +110,86 @@ class ClockIn extends Model
             ->where('time','<=',$currentTime)
             ->first();
 
+        if(!empty($data)){
+            $idClockIn  =   $data['id'];
+        }
+
         //dd($data);
+        $clockOut   =   ClockOut::orderBy('date','desc')->orderBy('time','desc')
+            ->where('id_clock_in', $idClockIn)
+            ->where('uuid',$userData['uuid'])
+            ->where('date',$currentDate)
+            ->where('time','<=',$currentTime)
+            ->first();
+
+        if(!empty($clockOut)){
+            $data   =   "";
+        }
 
         return $data;
+    }
+
+    public function getTimeCardDetails($request){
+        $data   =   ClockIn::where('clock_in.uuid', Auth::user()->uuid)
+            ->leftJoin('clock_out as co','clock_in.id','=','co.id_clock_in')
+            ->select('clock_in.id as in_id','clock_in.date as in_date', 'clock_in.time as in_time','co.time as out_time')
+            ->orderBy('clock_in.date','desc')
+            ->orderBy('clock_in.time','desc')
+            ->get();
+        $totalHours     =   0;
+        $totalMinutes   =   0;
+        $totalSeconds   =   0;
+        $dateTime1      =   0;
+        $dateTime2      =   0;
+        $response       =   [];
+
+
+
+        if(!empty($data)){
+            foreach($data as $value){
+                if(!empty($value['in_date']) && !empty($value['in_time'])){
+                    $dateTime1              =   $value['in_date']." ".date('h:i:s',strtotime($value['in_time']));
+                }
+                if(!empty($value['in_date']) && !empty($value['out_time'])){
+                    $dateTime2              =   $value['in_date']." ".date('h:i:s',strtotime($value['out_time']));
+                }
+
+
+               // echo $dateTime1."| ".$dateTime2;
+
+                $convertedDateTime      =   (!empty($value['out_time']))?$value['out_time']:0;
+
+                $convertedDateTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$dateTime1, 'dateTime2'=>$dateTime2]);
+
+                $hours                  =   $convertedDateTime['hours'];
+                $minutes                =   $convertedDateTime['minutes'];
+                $seconds                =   $convertedDateTime['seconds'];
+                //echo "TH: ".$hours." TM: ".$minutes." TS: ".$seconds."</br>";
+
+                $totalHours     =   $totalHours + $hours;
+                $totalMinutes   =   $totalMinutes + $minutes;
+                $totalSeconds   =   $totalSeconds   +   $seconds;
+
+                if($totalMinutes >= 60){
+                    $totalHours     =   $totalHours + 1;
+                    $totalMinutes   =   $totalMinutes - 60;
+                }
+
+
+
+                $response[]    =   [
+                    'in_date'           =>  date('d-m-Y',strtotime($value['in_date'])),
+                    'in_time'           =>  $value['in_time'],
+                    'out_time'          =>  $value['out_time'],
+                    'convertedDateTime' =>  $convertedDateTime,
+                    'hours'             =>  $hours.".".$minutes,
+                    'total_hours'       =>  $totalHours.".".$totalMinutes
+                ];
+
+            }
+        }
+
+        //dd();
+        return $response;
     }
 }
