@@ -12,7 +12,7 @@
             <h4 class="page-title">
                     {{date("d-M-Y")}}  | <span class="current-timer"></span> {{date("A")}} | Clocked&nbsp;
                     @if(!empty($time))
-\                       <span class="badge badge-success">IN</span>
+                        <span class="badge badge-success">IN</span>
                         <span class="clocker-div text-center font-weight-bold float-center"></span>
                     @else
                         <span class="badge badge-warning">OUT</span>
