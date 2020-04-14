@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Traits\AlertMessages;
+use App\Traits\FunctionTraits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class ClockOut extends Model
 {
     use AlertMessages;
+    use FunctionTraits;
 
     protected  $table       =   "clock_out";
     protected  $primaryKey  =   "id";
@@ -73,6 +75,12 @@ class ClockOut extends Model
 
     public function saveClockOut($dataArray){
         if(ClockOut::insert($dataArray)){
+            //Clock in email trigger
+            $uuid =   Auth::user()->uuid;
+            $param  =   ['uuid'=>$uuid, 'type'=>'Clock-Out'];
+
+            $this->attendanceEmail($param);
+
             $response['code']       =   200;
             $response['message']    =   $this->markedSuccessfullyMessage("Clock-Out");
 

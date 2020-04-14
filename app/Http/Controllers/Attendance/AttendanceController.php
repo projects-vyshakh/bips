@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Attendance;
 
 use App\Http\Controllers\Controller;
+use App\Mail\MailNotify;
 use App\Models\ClockIn;
 use App\Models\ClockOut;
 use App\Traits\FunctionTraits;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AttendanceController extends Controller
 {
@@ -29,5 +31,16 @@ class AttendanceController extends Controller
         $parameters['data'] =   $data;
         return view('attendance.timecards',$parameters);
     }
+
+    public function sendMails(){
+        $name = 'Cloudways';
+        Mail::to('vyshakhps1988@gmail.com')->send(new MailNotify());
+
+        return 'Email sent Successfully';
+
+
+
+    }
+
 
 }

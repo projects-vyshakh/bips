@@ -62,7 +62,7 @@ Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'admin'], function () {
     Route::any('/handleAddRoles','Settings\RolesController@handleAddRoles');
     Route::any('/handleAddWorkorder','Workorder\WorkorderController@handleAddWorkorder');
 
-    Route::get('/laravel-send-email', 'EmailController@sendEmail');
+
 });
 
 
@@ -75,12 +75,15 @@ Route::group([ 'middleware' => ['auth','web','rolesAndScreen'], 'prefix'=>'agent
     Route::any('/punch','Attendance\AttendanceController@showPunch');
     Route::any('/time-cards','Attendance\AttendanceController@showTimeCards');
 
+
 });
 
 Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'agent'], function () {
 
     Route::any('/handleClockIn','Attendance\ClockInController@handleClockIn');
     Route::any('/handleClockOut','Attendance\ClockOutController@handleClockOut');
+
+    Route::get('/laravel-send-email', 'Attendance\AttendanceController@mail');
 
 });
 //---------------------------------------------------------------------------------

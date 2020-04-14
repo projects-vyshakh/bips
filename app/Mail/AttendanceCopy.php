@@ -7,20 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class MailNotify extends Mailable
+class AttendanceCopy extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $name;
+    public $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name)
+    public function __construct($data)
     {
-        $this->name = $name;
+        $this->data =   $data;
     }
 
     /**
@@ -30,6 +30,7 @@ class MailNotify extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.email');
+        return $this->view('emails.attendance_copy')
+            ->subject($this->data['type']);
     }
 }

@@ -18,6 +18,7 @@ trait FunctionTraits{
 
     use ScreenTraits;
     use RolesAndPermissionScreens;
+    use EmailTraits;
 
 
 

@@ -23,6 +23,7 @@ class ClockIn extends Model
 
 
     public function addClockIn($request){
+
         $currentDate    =   date('Y-m-d');
         $currentTime    =   date('h:i A');
         $idUser         =   Auth::user()->id;
@@ -34,6 +35,9 @@ class ClockIn extends Model
         if(empty($idUser) || empty($uuid) || empty($currentDate) || empty($currentTime)){
             return $this->saveFailMessage("Clock In");
         }
+
+
+
 
 
         $dataArray  =   [
@@ -58,6 +62,8 @@ class ClockIn extends Model
             $checkClockOut  =   ClockOut::where('id_clock_in',$idClockIn)->first();
 
             if(!empty($checkClockOut)){
+
+
                 $response   =   $this->saveClockIn($dataArray);
             }
             else{
@@ -84,6 +90,12 @@ class ClockIn extends Model
         if(ClockIn::insert($dataArray)){
             $response['code']       =   200;
             $response['message']    =   $this->markedSuccessfullyMessage("Clock-In");
+
+            //Clock in email trigger
+            $uuid =   Auth::user()->uuid;
+            $param  =   ['uuid'=>$uuid, 'type'=>'Clock-In'];
+
+            $this->attendanceEmail($param);
 
 
         }
