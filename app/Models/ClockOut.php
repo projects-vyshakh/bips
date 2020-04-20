@@ -17,7 +17,7 @@ class ClockOut extends Model
 
     public function addClockOut($request){
         $currentDate    =   date('Y-m-d');
-        $currentTime    =   date('h:i A');
+        $currentTime    =   date('h:i a');
         $idUser         =   Auth::user()->id;
         $uuid           =   Auth::user()->uuid;
         $notes          =   $request['notes'];
@@ -79,7 +79,7 @@ class ClockOut extends Model
             $uuid =   Auth::user()->uuid;
             $param  =   ['uuid'=>$uuid, 'type'=>'Clock-Out'];
 
-            $this->attendanceEmail($param);
+            //$this->attendanceEmail($param);
 
             $response['code']       =   200;
             $response['message']    =   $this->markedSuccessfullyMessage("Clock-Out");

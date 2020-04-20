@@ -25,7 +25,7 @@ class ClockIn extends Model
     public function addClockIn($request){
 
         $currentDate    =   date('Y-m-d');
-        $currentTime    =   date('h:i A');
+        $currentTime    =   date('h:i a');
         $idUser         =   Auth::user()->id;
         $uuid           =   Auth::user()->uuid;
         $notes          =   $request['notes'];
@@ -35,10 +35,6 @@ class ClockIn extends Model
         if(empty($idUser) || empty($uuid) || empty($currentDate) || empty($currentTime)){
             return $this->saveFailMessage("Clock In");
         }
-
-
-
-
 
         $dataArray  =   [
             'id_user'       =>  $idUser,
@@ -95,7 +91,7 @@ class ClockIn extends Model
             $uuid =   Auth::user()->uuid;
             $param  =   ['uuid'=>$uuid, 'type'=>'Clock-In'];
 
-            $this->attendanceEmail($param);
+            //$this->attendanceEmail($param);
 
 
         }
@@ -111,7 +107,7 @@ class ClockIn extends Model
         $this->user     =   new User();
         $userData       =   $this->user->getUserDataWithId($id);
         $currentDate    =   date('Y-m-d');
-        $currentTime    =   date('h:i A');
+        $currentTime    =   date('h:i a');
         $idClockIn      =   "";
 
         //echo $currentDate."--".$currentTime."--".$userData['uuid'];
@@ -203,5 +199,10 @@ class ClockIn extends Model
 
         //dd();
         return $response;
+    }
+
+    public function resetTimer($request){
+        $currentDate    =   date('Y-m-d');
+        $currentTime    =   date('h:i a');
     }
 }

@@ -57,4 +57,5 @@
     @include('layouts.components.scripts.sweetalert.sweetalert')
 
     <script src="../public/assets/js/users/manage.js"></script>
+    <script src="../public/assets/js/attendance/timecards.js"></script>
 @endsection

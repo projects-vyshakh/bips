@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Attendance;
 
 use App\Http\Controllers\Controller;
 use App\Mail\MailNotify;
+use App\Models\Attendance;
 use App\Models\ClockIn;
 use App\Models\ClockOut;
 use App\Traits\FunctionTraits;
@@ -13,10 +14,12 @@ use Illuminate\Support\Facades\Mail;
 class AttendanceController extends Controller
 {
     protected $clockIn;
+    protected $attendance;
     use FunctionTraits;
 
     public function __construct() {
         $this->clockIn  =   new ClockIn();
+        $this->attendance     =   new Attendance();
     }
 
     public function showPunch(Request $request){
@@ -38,8 +41,24 @@ class AttendanceController extends Controller
 
         return 'Email sent Successfully';
 
+    }
 
 
+    public function handleResetTimer(Request $request){
+        $response   =   $this->resetTimer($request);
+    }
+    public function handleClockIn(Request $request){
+        $response   =   $this->attendance->addClockIn($request);
+        return json_encode($response);
+    }
+    public function setAttendanceTimer(Request $request){
+        $response   =   $this->attendance->lastClockedIn($request);
+        return json_encode($response);
+    }
+    public function handleClockOut(Request $request){
+
+        $response   =   $this->attendance->addClockOut($request);
+        return json_encode($response);
     }
 
 

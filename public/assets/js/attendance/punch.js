@@ -20,10 +20,5 @@ $(document).ready(function(){
     }
 
 
-
     runValidation();
-
-
-
-
 })

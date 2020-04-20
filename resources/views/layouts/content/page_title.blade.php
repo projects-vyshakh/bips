@@ -1,5 +1,4 @@
 {!! Form::hidden('current_time',date("h:i:s as"),['class'=>'current-time']) !!}
-{!! Form::hidden('clocker',$time,['class'=>'clocker']) !!}
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
@@ -10,13 +9,10 @@
                 </ol>
             </div>
             <h4 class="page-title">
-                    {{date("d-M-Y")}}  | <span class="current-timer"></span> {{date("A")}} | Clocked&nbsp;
-                    @if(!empty($time))
-                        <span class="badge badge-success">IN</span>
-                        <span class="clocker-div text-center font-weight-bold float-center"></span>
-                    @else
-                        <span class="badge badge-warning">OUT</span>
-                    @endif
+                {{date("d-M-Y")}}  | <span class="current-timer"></span> {{date("A")}} |&nbsp;
+                <span class="clocked-status badge badge-warning"></span>
+                <span class="clocker-div text-center font-weight-bold float-center"></span>
+
             </h4>
         </div>
     </div>

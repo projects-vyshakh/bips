@@ -32,6 +32,13 @@ class ClockInController extends Controller
         return view('attendance.clockin',$parameters);
     }
 
+    /*public function handleClockIn(Request $request){
+        $parameters =   $this->generalFunctions($request);
+        $response   =   $this->clockIn->addClockIn($request);
+
+        return back()->with($response['message'])->withInput();
+    }*/
+
     public function handleClockIn(Request $request){
         $parameters =   $this->generalFunctions($request);
         $response   =   $this->clockIn->addClockIn($request);

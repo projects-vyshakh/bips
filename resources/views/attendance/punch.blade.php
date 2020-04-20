@@ -4,12 +4,10 @@
 @section('contents')
     @include('alerts.flash-messages')
 
-    @if(!empty($time))
-        @include('layouts.components.attendance.punchout')
-    @else
+    <div class="punch-in-div">
         @include('layouts.components.attendance.punchin')
-    @endif
-
-
-
+    </div>
+    <div class="punch-out-div">
+        @include('layouts.components.attendance.punchout')
+    </div>
 @endsection

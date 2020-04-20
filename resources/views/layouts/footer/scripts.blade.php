@@ -28,41 +28,81 @@
 </script>
 
 <script>
-    var clocker =   $('.clocker').val();
-    var split   =   clocker.split(":");
-    var hours   =   split[0];
-    var minutes =   split[1];
-    var seconds =   split[2];
+    var _token  =   $("input[name=_token]").val();
+    var dataString    =   "_token="+_token;
+    $.ajax({
+        type: "POST",
+            url: '../setAttendanceTimer',
+        dataType: "JSON",
+        data: dataString,
+        success: function (data) {
+            console.log(data);
+            var totalSec            =   data.timerInSeconds;
+            var clockedOutStatus    =   data.data.is_clocked_out;
+
+            if(totalSec!=''){
+                var options = {
+                    timerCounter: totalSec*1000,
+                };
 
 
 
 
-    var hoursToSec      =   hours*3600;
-    var minToSec        =   minutes*60;
-    var totalSec        =   parseInt(hoursToSec)+parseInt(minToSec)+parseInt(seconds);
 
+                if(clockedOutStatus == 'No'){
+                    $(".clocker-div").timer( options ).start();
+                    $('.clocked-status').text("CLOCKED-IN").removeClass('badge-warning').addClass('badge-success');
+                    $('.punch-out').show();
+                    $('.punch-in').hide();
+                }
+                else{
+                    $(".clocker-div").timer( options ).stop();
+                    $('.clocked-status').text("CLOCKED-OUT").removeClass('badge-success').addClass('badge-warning');
+                    $('.punch-out').hide();
+                    $('.punch-in').show();
+                }
+            }
 
-
-    var options = {
-        timerCounter: totalSec*1000
-    };
-    $(".clocker-div").timer( options ).start();
+        }
+    });
 </script>
 
-//Showing Current Timer
+
 <script>
-  var currentTimer  =   $('.current-time').val();
-  var csplit   =   currentTimer.split(":");
+  //var currentTimer  =   $('.current-time').val();
+  var offset  =    -4;
+  var d       =    new Date();
+  var utc     =    d.getTime() + (d.getTimezoneOffset() * 60000);
+  var nd      =   new Date(utc + (3600000*offset));
+  var ctime   =   nd.toLocaleString().split(',')[1];
+
+  //var ctime =   "00:00:00 a";
+
+
+  var csplit   =   ctime.split(":");
   var chours   =   csplit[0];
   var cminutes =   csplit[1];
   var cseconds =   csplit[2];
-
   var choursToSec      =   chours*3600;
   var cminToSec        =   cminutes*60;
   var ctotalSec        =   parseInt(choursToSec)+parseInt(cminToSec)+parseInt(cseconds);
 
   var options = {
-      timerCounter: ctotalSec*1000
+      timerCounter: ctotalSec*1000,
+      onTick: function() {
+          console.log(
+              "Counter value: " +   this.counter + "\n" +
+              "Target: " +          this.target + "\n" +
+              "Is Running: " +      this.enabled + "\n" +
+              "Current history: " + JSON.stringify(this.history)
+          );
+
+          if(this.counter >= 1001 && this.counter<=1010){
+              //alert("Ds");
+
+          }
+
+      },
   };
   $(".current-timer").timer( options ).start();
 

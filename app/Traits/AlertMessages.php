@@ -53,6 +53,7 @@ trait AlertMessages{
 
         return $msg;
     }
+
     public function ajaxUpdateSuccessMessage($param){
         if(!empty($param)){
             $msg    =   $param." updated successfully.";
@@ -176,6 +177,29 @@ trait AlertMessages{
     }
     public function clockOutMessage(){
         $msg    =   ["warning"=>"You are already Clocked-In. Please Clock-Out."];
+        return $msg;
+    }
+
+    public function ajaxMarkedSuccessfullyMessage($param){
+        if(!empty($param)){
+            $msg    =   $param." has been marked successfully.";
+        }
+        else{
+            $msg    =   "Data has been marked successfully.";
+        }
+
+        return $msg;
+    }
+    public function ajaxAlreadyClockedOutMessage(){
+        $msg    =   "You are already Clocked-Out. Please Clock-In.";
+        return $msg;
+    }
+    public function ajaxAlreadyClockInMessage(){
+        $msg    =   "You are already Clocked-In. Please Clock-Out.";
+        return $msg;
+    }
+    public function ajaxAlreadyClockOutMessage(){
+        $msg    =   "You are already Clocked-Out. Please Clock-In.";
         return $msg;
     }
 

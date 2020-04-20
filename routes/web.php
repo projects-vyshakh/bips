@@ -115,6 +115,11 @@ Route::group([ 'middleware' => ['auth','web']], function () {
     Route::any('/handleSaveWorkorderType','Workorder\WorkorderController@handleSaveWorkorderType');
     Route::any('/handleUpdateWorkorderType','Workorder\WorkorderController@handleUpdateWorkorderType');
 
+    Route::any('/handleResetTimer','Attendance\AttendanceController@handleResetTimer');
+    Route::any('/setAttendanceTimer','Attendance\AttendanceController@setAttendanceTimer');
+    Route::any('/handleClockIn','Attendance\AttendanceController@handleClockIn');
+    Route::any('/handleClockOut','Attendance\AttendanceController@handleClockOut');
+
 });
 
 
