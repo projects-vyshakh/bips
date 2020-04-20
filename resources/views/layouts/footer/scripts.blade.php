@@ -76,6 +76,8 @@
   var nd      =   new Date(utc + (3600000*offset));
   var ctime   =   nd.toLocaleString().split(',')[1];
 
+  var ctime =   $('.current-time').val();
+
   //var ctime =   "00:00:00 a";
 
 
