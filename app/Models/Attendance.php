@@ -65,7 +65,7 @@ class Attendance extends Model
             $uuid   =   Auth::user()->uuid;
             $param  =   ['uuid'=>$uuid, 'type'=>'Clock-In'];
 
-            $this->attendanceEmail($param);
+            //$this->attendanceEmail($param);
             return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxMarkedSuccessfullyMessage("Clock In")];
         }
         else{
@@ -124,7 +124,7 @@ class Attendance extends Model
             $uuid =   Auth::user()->uuid;
             $param  =   ['uuid'=>$uuid, 'type'=>'Clock-Out'];
 
-            $this->attendanceEmail($param);
+            //$this->attendanceEmail($param);
             return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxMarkedSuccessfullyMessage("Clock Out")];
         }
         else{
