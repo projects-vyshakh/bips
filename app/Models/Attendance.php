@@ -60,10 +60,72 @@ class Attendance extends Model
         }
 
     }
-
     public function saveClockIn($data){
         if(Attendance::insert($data)){
+            $uuid   =   Auth::user()->uuid;
+            $param  =   ['uuid'=>$uuid, 'type'=>'Clock-In'];
+
+            $this->attendanceEmail($param);
             return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxMarkedSuccessfullyMessage("Clock In")];
+        }
+        else{
+            return ['code'=>400, 'status'=>'error','title'=>'Error','message'=>$this->somethingWrongErrorMessage()];
+
+        }
+    }
+
+    public function addClockOut($request){
+        $endDate        =   date('Y-m-d');
+        $endTime        =   date('h:i:s a');
+        $idUser         =   Auth::user()->id;
+        $uuid           =   Auth::user()->uuid;
+        $notes          =   $request['out_notes'];
+
+        if(empty($idUser) || empty($uuid) || empty($endDate) || empty($endTime)){
+            return  ['code'=>400,'title'=>'Error','message'=>$this->insufficientData(),'status'=>'error'];
+        }
+
+        $dataArray  =   [
+            'end_date'            =>  $endDate,
+            'end_time'            =>  $endTime,
+            'end_notes'           =>  $notes,
+            'is_clocked_out'      =>  'Yes',
+            'updated_at'          =>  date('Y-m-d h;i:s')
+        ];
+
+        $checkClockedIn =   Attendance::where('uuid',$uuid)
+            ->where('start_date', $endDate)
+            ->where('start_time','<=', $endTime)
+            ->orderBy('start_date','desc')
+            ->orderBy('start_time','desc')
+            ->first();
+
+
+
+
+
+        if(empty($checkClockedIn)){
+            //insert
+            return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxAlreadyClockOutMessage()];
+        }
+        else{
+            if($checkClockedIn['is_clocked_out'] == 'No'){
+                $response   =   $this->saveClockOut($dataArray, $checkClockedIn);
+                return $response;
+            }
+            else{
+                return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxAlreadyClockOutMessage()];
+            }
+        }
+
+    }
+    public function saveClockOut($data, $clockInData){
+        if(Attendance::where('id', $clockInData['id'])->update($data)){
+            $uuid =   Auth::user()->uuid;
+            $param  =   ['uuid'=>$uuid, 'type'=>'Clock-Out'];
+
+            $this->attendanceEmail($param);
+            return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxMarkedSuccessfullyMessage("Clock Out")];
         }
         else{
             return ['code'=>400, 'status'=>'error','title'=>'Error','message'=>$this->somethingWrongErrorMessage()];
@@ -82,18 +144,17 @@ class Attendance extends Model
         $break              =   0;
         $totalClockedOut    =   0;
 
-        //echo $startTime;
 
 
 
         //Fetching latest data
         $latestData   =   Attendance::where('start_date',$startDate)
-            ->where('start_time','<=',strtotime($startTime))
+            ->where('start_time','<=',$startTime)
             ->orderBy('start_date','desc')->orderBy('start_time','desc')
             ->where('id_user', $idUser)
             ->first();
 
-            //dd($latestData);
+        // dd($latestData);
 
         $data   =   Attendance::where('start_date',$startDate)->where('id_user', $idUser)->get();
 
@@ -147,58 +208,87 @@ class Attendance extends Model
         $timeInSeconds = $hours * 3600 + $minutes * 60 + $seconds;
 
 
-       return ['timer'=>$time, 'timerInSeconds'=> $timeInSeconds, 'data'=>$latestData];
+        return ['timer'=>$time, 'timerInSeconds'=> $timeInSeconds, 'data'=>$latestData];
     }
 
-    public function addClockOut($request){
-        $endDate        =   date('Y-m-d');
-        $endTime        =   date('h:i:s a');
-        $idUser         =   Auth::user()->id;
-        $uuid           =   Auth::user()->uuid;
-        $notes          =   $request['out_notes'];
-
-        if(empty($idUser) || empty($uuid) || empty($endDate) || empty($endTime)){
-            return  ['code'=>400,'title'=>'Error','message'=>$this->insufficientData(),'status'=>'error'];
-        }
-
-        $dataArray  =   [
-            'end_date'            =>  $endDate,
-            'end_time'            =>  $endTime,
-            'end_notes'           =>  $notes,
-            'is_clocked_out'      =>  'Yes',
-            'updated_at'          =>  date('Y-m-d h;i:s')
-        ];
-
-        $checkClockedIn =   Attendance::where('uuid',$uuid)
+    public function getTimeCardDetails($request){
+        $data   =   Attendance::where('uuid', Auth::user()->uuid)
             ->orderBy('start_date','desc')
-            ->orderBy('start_time','desc')
-            ->first();
+            ->orderBy('start_time', 'desc')
+            ->get();
+
+        $totalHours     =   0;
+        $totalMinutes   =   0;
+        $totalSeconds   =   0;
+        $totalBreak     =   0;
+        $dateTime1      =   0;
+        $dateTime2      =   0;
+        $response       =   [];
 
 
 
-        if(empty($checkClockedIn)){
-            //insert
-            return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxAlreadyClockOutMessage()];
-        }
-        else{
-            if($checkClockedIn['is_clocked_out'] == 'No'){
-                $response   =   $this->saveClockOut($dataArray, $checkClockedIn);
-                return $response;
+        if(!empty($data)){
+
+            foreach($data as $value){
+                $startDate  =   $value['start_date'];
+                $startTime  =   $value['start_time'];
+                $endDate    =   $value['end_date'];
+                $endTime    =   $value['end_time'];
+                $break      =   $value['break'];
+
+
+                $dateTime1  =   $startDate." ".date('h:i:s',strtotime($startTime));
+
+                if(!empty($endTime)){
+                    $dateTime2  =   $endDate." ".date('h:i:s',strtotime($endTime));
+                }
+                else{
+                    $dateTime2  =   0;
+                }
+
+                $convertedDateTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$dateTime1, 'dateTime2'=>$dateTime2]);
+                $hours                  =   $convertedDateTime['hours'];
+                $minutes                =   $convertedDateTime['minutes'];
+                $seconds                =   $convertedDateTime['seconds'];
+
+                $totalHours     =   $totalHours + $hours;
+                $totalMinutes   =   $totalMinutes + $minutes;
+                $totalSeconds   =   $totalSeconds   +   $seconds;
+                $totalBreak     =   $totalBreak + $break;
+
+                if($totalMinutes >= 60){
+                    $totalHours     =   $totalHours + 1;
+                    $totalMinutes   =   $totalMinutes - 60;
+                }
+
+                $time   =    $hours.":".$minutes.":".$seconds;
+
+                if(!empty($break)){
+                    $time   =   date('h:i',strtotime($time.' -'.$break.' minutes'));
+                }
+
+                //convert break to hours and minutes
+                if($break > 0){
+                    $break  =   $break/60;
+                }
+
+                $response[] =   [
+                    'start_date'    =>  $startDate,
+                    'start_time'    =>  $startTime,
+                    'end_date'      =>  $endDate,
+                    'end_time'      =>  $endTime,
+                    'worked_hours'  =>  $hours.".".$minutes,
+                    'break'         =>  $break,
+                    'total_hours'   =>  $totalHours.".".$totalMinutes,
+                    'net_hours'     =>  $time
+
+                ];
             }
-            else{
-                return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxAlreadyClockOutMessage()];
-            }
-        }
 
-    }
-
-    public function saveClockOut($data, $clockInData){
-        if(Attendance::where('id', $clockInData['id'])->update($data)){
-            return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxMarkedSuccessfullyMessage("Clock Out")];
-        }
-        else{
-            return ['code'=>400, 'status'=>'error','title'=>'Error','message'=>$this->somethingWrongErrorMessage()];
 
         }
+
+        //dd();
+        return $response;
     }
 }

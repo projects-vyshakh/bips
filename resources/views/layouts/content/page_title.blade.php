@@ -1,4 +1,5 @@
-{!! Form::hidden('current_time',date("h:i:s a"),['class'=>'current-time']) !!}
+{!! Form::hidden('current_time',date("11:59:57 A"),['class'=>'current-time']) !!}
+{!! Form::hidden('current_day_type',date("A"),['class'=>'current-time current-day-type']) !!}
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">

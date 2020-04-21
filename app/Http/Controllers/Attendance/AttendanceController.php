@@ -28,7 +28,7 @@ class AttendanceController extends Controller
     }
     public function showTimeCards(Request $request){
         $parameters =   $this->generalFunctions($request);
-        $data       =   $this->clockIn->getTimeCardDetails($request);
+        $data       =   $this->attendance->getTimeCardDetails($request);
 
 
         $parameters['data'] =   $data;

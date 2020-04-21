@@ -6,12 +6,13 @@
             <table id="data-table" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr class="text-center font-weight-bolder">
-                        <th>Sl.No</th>
-                        <th>Date</th>
-                        <th>Punch In</th>
-                        <th>Punch Out</th>
-                        <th>Hours</th>
-
+                        <th>SL.NO</th>
+                        <th>CLOCKED-IN DATE</th>
+                        <th>CLOCKED-IN TIME</th>
+                        <th>CLOCKED-OUT DATE</th>
+                        <th>CLOCKED-OUT TIME</th>
+                        <th>WORK HOURS</th>
+                        <th>BREAK TIME</th>
                     </tr>
 
                 </thead>
@@ -21,14 +22,17 @@
                     @foreach($data as $index=> $value)
                         <tr class="text-center">
                             <td >{{$index+1}}</td>
-                            <td >{{$value['in_date']}}</td>
-                            <td class="text-success">{{$value['in_time']}}</td>
-                            @if(!empty($value['out_time']))
-                                <td class="text-warning"> {{$value['out_time']}} </td>
+                            <td class="text-success">{{$value['start_date']}}</td>
+                            <td class="text-success">{{$value['start_time']}}</td>
+                            @if(!empty($value['end_date']))
+                                <td class="text-warning"> {{$value['end_date']}} </td>
+                                <td class="text-warning"> {{$value['end_time']}} </td>
                             @else
                                 <td class="text-danger"> --</td>
+                                <td class="text-danger"> --</td>
                             @endif
-                            <td >{{$value['hours']}}</td>
+                            <td >{{$value['worked_hours']}}</td>
+                            <td >{{$value['break']}}</td>
                         </tr>
                     @endforeach
                 @endif
@@ -39,8 +43,12 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th class="font-weight-bolder ">Total Hours</th>
+                    <th></th>
+                    <th></th>
+                    <th class="font-weight-bolder ">Total Working Hours</th>
                     <th class="font-weight-bolder text-success">{{$value['total_hours']}}</th>
+                    {{--<th class="font-weight-bolder ">Net Working Hours</th>
+                    <th class="font-weight-bolder text-success">{{$value['net_hours']}}</th>--}}
 
                 </tr>
                 </tfoot>
