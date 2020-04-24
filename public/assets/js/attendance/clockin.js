@@ -25,7 +25,7 @@ $(document).ready(function(){
             e.preventDefault();
             var notes   =   $('.notes').val();
 
-
+            $('#clock-in').attr('disabled','disabled');
             $('.icon-clock').hide();
             $('.button-spinner').show();
             $('.spinner-text').show();
@@ -58,6 +58,7 @@ $(document).ready(function(){
                     $('.punch-in').hide();
 
                     if(data['code'] == 200){
+                        $('#clock-in').removeAttr('disabled');
                         $('.button-spinner').hide();
                         $('.spinner-text').hide();
                         $('.icon-clock').show();
@@ -78,6 +79,8 @@ $(document).ready(function(){
             e.preventDefault();
             var notes   =   $('.out_notes').val();
 
+
+            $('#clock-out').attr('disabled','disabled');
             $('.icon-clock').hide();
             $('.button-spinner').show();
             $('.spinner-text').show();
@@ -110,6 +113,7 @@ $(document).ready(function(){
                     $('.punch-in').show();
 
                     if(data['code'] == 200){
+                        $('#clock-out').removeAttr('disabled');
                         $('.button-spinner').hide();
                         $('.spinner-text').hide();
                         $('.icon-clock').show();
