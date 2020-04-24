@@ -31,6 +31,10 @@ trait EmailTraits{
         $param['date']  =   $currentDate;
         $param['time']  =   $currentTime;
 
+
+
+
+
         if(!empty($param['uuid'])){
             $userData           =   User::where('users.uuid',$param['uuid'])->where('users.status','Active')
                 ->leftJoin('roles as r','r.id','=','users.roles')
@@ -49,7 +53,7 @@ trait EmailTraits{
 
 
         //Sending to admin
-        //Mail::to('reports@crystalbn.com')->send(new AttendanceCopy($param));
+        Mail::to('vyshakhps1988@gmail.com')->send(new AttendanceCopy($param));
 
         return 'Email was sent';
     }

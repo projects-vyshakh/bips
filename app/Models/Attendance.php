@@ -63,9 +63,9 @@ class Attendance extends Model
     public function saveClockIn($data){
         if(Attendance::insert($data)){
             $uuid   =   Auth::user()->uuid;
-            $param  =   ['uuid'=>$uuid, 'type'=>'Clock-In'];
+            $param  =   ['uuid'=>$uuid, 'type'=>'Clock-In','notes'=>$data['start_notes']];
 
-            //$this->attendanceEmail($param);
+            $this->attendanceEmail($param);
             return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxMarkedSuccessfullyMessage("Clock In")];
         }
         else{
@@ -79,7 +79,8 @@ class Attendance extends Model
         $endTime        =   date('h:i:s a');
         $idUser         =   Auth::user()->id;
         $uuid           =   Auth::user()->uuid;
-        $notes          =   $request['out_notes'];
+        $notes          =   $request['notes'];
+
 
         if(empty($idUser) || empty($uuid) || empty($endDate) || empty($endTime)){
             return  ['code'=>400,'title'=>'Error','message'=>$this->insufficientData(),'status'=>'error'];
@@ -122,9 +123,9 @@ class Attendance extends Model
     public function saveClockOut($data, $clockInData){
         if(Attendance::where('id', $clockInData['id'])->update($data)){
             $uuid =   Auth::user()->uuid;
-            $param  =   ['uuid'=>$uuid, 'type'=>'Clock-Out'];
+            $param  =   ['uuid'=>$uuid, 'type'=>'Clock-Out', 'notes'=>$data['end_notes'], 'clock-in'=>$clockInData];
 
-            //$this->attendanceEmail($param);
+            $this->attendanceEmail($param);
             return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxMarkedSuccessfullyMessage("Clock Out")];
         }
         else{

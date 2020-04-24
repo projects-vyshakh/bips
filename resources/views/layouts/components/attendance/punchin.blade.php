@@ -14,7 +14,12 @@
                 </div>
 
                 <div class="text-center">
-                    <button type="submit" id="clock-in" class="btn btn-outline-primary waves-effect waves-light mt-2 btn-lg clock-in"><i class="fe-clock"></i> Punch-In</button>
+                    <button type="submit" id="clock-in" class="btn btn-outline-primary waves-effect waves-light mt-2 btn-lg clock-in">
+                        <i class="fe-clock icon-clock"></i>
+                        <span class="spinner-border spinner-border-sm mr-1 button-spinner" role="status" aria-hidden="false" style="display: none"></span>
+                        <span class="spinner-text" style="display: none">Please Wait...</span>
+                        Clock-In
+                    </button>
                 </div>
 
             {!! Form::close() !!}

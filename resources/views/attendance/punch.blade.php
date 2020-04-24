@@ -10,4 +10,7 @@
     <div class="punch-out-div">
         @include('layouts.components.attendance.punchout')
     </div>
+
+
+
 @endsection

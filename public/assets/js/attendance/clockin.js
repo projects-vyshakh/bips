@@ -25,6 +25,11 @@ $(document).ready(function(){
             e.preventDefault();
             var notes   =   $('.notes').val();
 
+
+            $('.icon-clock').hide();
+            $('.button-spinner').show();
+            $('.spinner-text').show();
+
             if(notes==""){
                 $('.error-div').append('<p class="error-message text-danger">Please enter your notes here.</p>');
                 return false;
@@ -53,6 +58,10 @@ $(document).ready(function(){
                     $('.punch-in').hide();
 
                     if(data['code'] == 200){
+                        $('.button-spinner').hide();
+                        $('.spinner-text').hide();
+                        $('.icon-clock').show();
+
                         $('.confirm').click(function(e){
                             e.preventDefault();
 
@@ -68,6 +77,10 @@ $(document).ready(function(){
         $('.clock-out').click(function(e){
             e.preventDefault();
             var notes   =   $('.out_notes').val();
+
+            $('.icon-clock').hide();
+            $('.button-spinner').show();
+            $('.spinner-text').show();
 
             if(notes==""){
                 $('.error-div').append('<p class="error-message text-danger">Please enter your notes here.</p>');
@@ -97,6 +110,10 @@ $(document).ready(function(){
                     $('.punch-in').show();
 
                     if(data['code'] == 200){
+                        $('.button-spinner').hide();
+                        $('.spinner-text').hide();
+                        $('.icon-clock').show();
+
                         $('.confirm').click(function(e){
                             e.preventDefault();
 
