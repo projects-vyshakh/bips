@@ -15,12 +15,13 @@
                 </div>
 
                 <div class="text-center">
-                    <button type="submit" class="btn btn-outline-warning waves-effect waves-light mt-2 btn-lg clock-out">
+                    <button type="submit" class="btn btn-outline-warning waves-effect waves-light mt-2 btn-lg clock-out" id="clock-out">
                         <i class="fe-clock icon-clock"></i>
                         <span class="spinner-border spinner-border-sm mr-1 button-spinner" role="status" aria-hidden="false" style="display: none"></span>
                         <span class="spinner-text" style="display: none">Please Wait...</span>
                         Clock-Out
                     </button>
+                    <span class="break-status"></span>
                 </div>
             {!! Form::close() !!}
         </div>

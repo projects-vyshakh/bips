@@ -58,7 +58,9 @@ $(document).ready(function(){
                     $('.punch-in').hide();
 
                     //Append  start break button
-                    $('.break-status').append('<a href="" class="badge badge-success">Start Break</a>')
+                    $('.break-stop').remove();
+                    $('.break-start').remove();
+                    $('.break-status').append('<a href="" class="btn btn-outline-success waves-effect waves-light mt-2 btn-lg break-start">Start Break</a>')
 
 
                     if(data['code'] == 200){
@@ -115,6 +117,11 @@ $(document).ready(function(){
                     $('.clocked-status').text('CLOCKED-OUT').removeClass('badge-success').addClass('badge-warning');
                     $('.punch-out').hide();
                     $('.punch-in').show();
+
+
+                    $('.break-stop').remove();
+                    $('.break-start').remove();
+                   // $('.break-status').append('<a href="" class="btn btn-outline-danger break-stop">Stop Break</a>')
 
                     if(data['code'] == 200){
                         $('#clock-out').removeAttr('disabled');

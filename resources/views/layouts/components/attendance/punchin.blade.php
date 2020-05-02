@@ -20,6 +20,7 @@
                         <span class="spinner-text" style="display: none">Please Wait...</span>
                         Clock-In
                     </button>
+                    <span class="break-status"></span>
                 </div>
 
             {!! Form::close() !!}

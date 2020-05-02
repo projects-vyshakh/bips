@@ -78,8 +78,10 @@ $(document).ready(function(){
                         $('.punch-out').show();
                         $('.punch-in').hide();
 
-                        //Append  start break button
-                        $('.break-status').append('<a href="" class="btn btn-outline-success">Start Break</a>')
+                        $('.break-stop').remove();
+                        $('.break-start').remove();
+                        $('.break-status').append('<a href="" class="btn btn-outline-success waves-effect waves-light mt-2 btn-lg break-start">Start Break</a>')
+
                     }
                     else{
                         $(".clocker-div").timer( options ).stop();
