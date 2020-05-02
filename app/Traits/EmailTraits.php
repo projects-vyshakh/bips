@@ -47,13 +47,13 @@ trait EmailTraits{
 
         if($userData['short_name'] != "admin"){
             //Sending to user
-           // Mail::to($userEmailTo)->send(new Attendance($param));
+           Mail::to($userEmailTo)->send(new Attendance($param));
         }
 
 
 
         //Sending to admin
-        Mail::to('vyshakhps1988@gmail.com')->send(new AttendanceCopy($param));
+        Mail::to('reports@crystalbn.com')->send(new AttendanceCopy($param));
 
         return 'Email was sent';
     }
