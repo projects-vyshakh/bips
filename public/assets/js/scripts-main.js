@@ -77,6 +77,9 @@ $(document).ready(function(){
                         $('.clocked-status').text("CLOCKED-IN").removeClass('badge-warning').addClass('badge-success');
                         $('.punch-out').show();
                         $('.punch-in').hide();
+
+                        //Append  start break button
+                        $('.break-status').append('<a href="" class="btn btn-outline-success">Start Break</a>')
                     }
                     else{
                         $(".clocker-div").timer( options ).stop();

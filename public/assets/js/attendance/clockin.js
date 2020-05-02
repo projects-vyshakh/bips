@@ -57,6 +57,10 @@ $(document).ready(function(){
                     $('.punch-out').show();
                     $('.punch-in').hide();
 
+                    //Append  start break button
+                    $('.break-status').append('<a href="" class="badge badge-success">Start Break</a>')
+
+
                     if(data['code'] == 200){
                         $('#clock-in').removeAttr('disabled');
                         $('.button-spinner').hide();

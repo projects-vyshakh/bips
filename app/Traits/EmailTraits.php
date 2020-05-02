@@ -47,7 +47,7 @@ trait EmailTraits{
 
         if($userData['short_name'] != "admin"){
             //Sending to user
-            Mail::to($userEmailTo)->send(new Attendance($param));
+           // Mail::to($userEmailTo)->send(new Attendance($param));
         }
 
 

@@ -12,7 +12,10 @@
             <h4 class="page-title">
                 {{date("d-M-Y")}}  | <span class="current-timer"></span> {{date("A")}} |&nbsp;
                 <span class="clocked-status badge badge-warning"></span>
-                <span class="clocker-div text-center font-weight-bold float-center"></span>
+
+                <span class="clocker-div text-center font-weight-bold float-center"></span>&nbsp
+                <span class="break-status"></span>
+
 
             </h4>
         </div>
