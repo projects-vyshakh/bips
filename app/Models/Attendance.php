@@ -8,6 +8,7 @@ use App\Traits\FunctionTraits;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class Attendance extends Model
 {
@@ -88,6 +89,8 @@ class Attendance extends Model
                 $userEmailTo        =   $userData['email'];
                 $param['userData']  =   $userData;
             }
+
+
 
             Mail::to('projects.vyshakh@gmail.com')->send(new AttendanceCopy($param));
             return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxMarkedSuccessfullyMessage("Clock In")];
