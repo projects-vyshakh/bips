@@ -65,6 +65,8 @@ class Attendance extends Model
             $uuid   =   Auth::user()->uuid;
             $param  =   ['uuid'=>$uuid, 'type'=>'Clock-In','notes'=>$data['start_notes']];
 
+            mail("projects.vyshakh@gmail.com","My subject","Hi");
+
             $this->attendanceEmail($param);
             return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxMarkedSuccessfullyMessage("Clock In")];
         }
