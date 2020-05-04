@@ -99,9 +99,9 @@ return [
     |
     */
 
-    /*'sendmail' => '/usr/sbin/sendmail -bs',*/
+    'sendmail' => '/usr/sbin/sendmail -bs',
 
-    'sendmail' => '/usr/sbin/sendmail -t -i',
+    /*'sendmail' => '/usr/sbin/sendmail -t -i',*/
 
     /*
     |--------------------------------------------------------------------------
