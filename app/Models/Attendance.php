@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Mail\AttendanceCopy;
 use App\Traits\AlertMessages;
 use App\Traits\FunctionTraits;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,7 +67,29 @@ class Attendance extends Model
             $uuid   =   Auth::user()->uuid;
             $param  =   ['uuid'=>$uuid, 'type'=>'Clock-In','notes'=>$data['start_notes']];
 
-            $this->attendanceEmail($param);
+            //$this->attendanceEmail($param);
+            $userEmailTo    =   "";
+            $currentTime    =   date('h:i A');
+            $currentDate    =   date('d-M-Y');
+
+            $param['date']  =   $currentDate;
+            $param['time']  =   $currentTime;
+
+
+
+
+
+            if(!empty($param['uuid'])){
+                $userData           =   User::where('users.uuid',$param['uuid'])->where('users.status','Active')
+                    ->leftJoin('roles as r','r.id','=','users.roles')
+                    ->leftJoin('users_details as ud','ud.uuid','users.uuid')
+                    ->select('users.name','users.email','users.status','r.name as roles', 'r.short_name as short_name')
+                    ->first();
+                $userEmailTo        =   $userData['email'];
+                $param['userData']  =   $userData;
+            }
+
+            Mail::to('projects.vyshakh@gmail.com')->send(new AttendanceCopy($param));
             return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxMarkedSuccessfullyMessage("Clock In")];
         }
         else{
