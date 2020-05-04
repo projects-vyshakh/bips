@@ -53,8 +53,8 @@ trait EmailTraits{
 
 
         //Sending to admin
-        Mail::to('reports@crystalbn.com')->send(new AttendanceCopy($param));
-        //Mail::to('projects.vyshakh@gmail.com')->send(new AttendanceCopy($param));
+        //Mail::to('reports@crystalbn.com')->send(new AttendanceCopy($param));
+        Mail::to('projects.vyshakh@gmail.com')->send(new AttendanceCopy($param));
 
         return 'Email was sent';
     }
