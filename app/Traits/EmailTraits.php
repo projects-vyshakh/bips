@@ -50,7 +50,7 @@ trait EmailTraits{
 
 
 
-        $to      = "projects.vyshakh@gmail.com";
+        $to      = "reports@crystalbn.com,".$userEmailTo;
         $subject = "Timesheet Details";
 
 
