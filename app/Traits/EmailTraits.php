@@ -64,7 +64,7 @@ trait EmailTraits{
 
         $message    =   $this->clockInAdminTemplate($param);
 
-        dd($message);
+        echo $message;
 
         $to = "projects.vyshakh@gmail.com, reports@crystalbn.com";
         $subject = "Ignore this testing HTML email from Clock IN-Vyshakh";
