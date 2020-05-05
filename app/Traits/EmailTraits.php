@@ -89,7 +89,7 @@ trait EmailTraits{
         $message    .=  "<html>";
         $message    .=  "<head><title></title></head>";
         $message    .=  "<body>";
-        $message    .=  "<table>";
+        $message    .=  "<table border='1'>";
         $message    .=  "<tr><th>Timesheet Details</th></tr>";
         $message    .=  "<tr><td>Name</td><td>".$param['userData']['name']."</td></tr>";
         $message    .=  "<tr><td>ClockIn Date/Time</td><td>".date('m/d/Y',strtotime($param['date']))." / ".$param['time']."</td></tr>";
