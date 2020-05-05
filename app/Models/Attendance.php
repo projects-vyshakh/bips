@@ -7,6 +7,9 @@ use App\Traits\FunctionTraits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
+
+
+
 class Attendance extends Model
 {
     protected  $table       =   "attendance";
@@ -197,7 +200,7 @@ class Attendance extends Model
             $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
             // More headers
-            $headers .= 'From: Crystalbn Networks' . "\r\n";
+            $headers .= 'From: reports@crystalbn.com' . "\r\n";
             //$headers .= 'Cc: vyshakhps1988@gmail.com' . "\r\n";
 
             mail($to,$subject,$message,$headers);
