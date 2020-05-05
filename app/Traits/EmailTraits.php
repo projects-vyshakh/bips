@@ -45,6 +45,8 @@ trait EmailTraits{
             $param['userData']  =   $userData;
         }
 
+        //dd($param);
+
         /*if($userData['short_name'] != "admin"){
             //Sending to user
            Mail::to($userEmailTo)->send(new Attendance($param));
@@ -60,14 +62,13 @@ trait EmailTraits{
 
 
 
-        //return 'Email was sent';
 
-        $message    =   $this->clockInAdminTemplate($param);
+        $message    =   ($param['type'] == "Clock-In")?$this->clockInEmailTemplate($param):$this->clockOutEmailTemplate($param);
 
-        echo $message;
 
-        $to = "projects.vyshakh@gmail.com, reports@crystalbn.com";
-        $subject = "Ignore this testing HTML email from Clock IN-Vyshakh";
+
+        $to      = "reports@crystalbn.com,".$userEmailTo;
+        $subject = "Timesheet Details";
 
 
 
@@ -76,35 +77,49 @@ trait EmailTraits{
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
         // More headers
-        $headers .= 'From: <projects.vyshakh@gmail.com>' . "\r\n";
-        $headers .= 'Cc: vyshakhps1988@gmail.com' . "\r\n";
+        $headers .= 'From: Crystalbn Networks <projects.vyshakh@gmail.com>' . "\r\n";
 
         mail($to,$subject,$message,$headers);
-
-
-
 
     }
 
 
-    public function clockInAdminTemplate($param){
-        $agentName  =   $param['name'];
-
-        $message    =   "";
-
+    public function clockInEmailTemplate($param){
+        $message     =   "";
         $message    .=  "<html>";
         $message    .=  "<head><title></title></head>";
         $message    .=  "<body>";
         $message    .=  "<table>";
         $message    .=  "<tr><th>Timesheet Details</th></tr>";
-        $message    .=  "<tr><td>Agent Name</td><td>".$agentName."</td></tr>";
+        $message    .=  "<tr><td>Name</td><td>".$param['userData']['name']."</td></tr>";
+        $message    .=  "<tr><td>ClockIn Date/Time</td><td>".date('m/d/Y',strtotime($param['date']))." / ".$param['time']."</td></tr>";
+        $message    .=  "<tr><td>ClockOut Date/Time</td><td>--</td></tr>";
+        $message    .=  "<tr><td>ClockIn Notes</td><td>".$param['notes']."</td></tr>";
+        $message    .=  "<tr><td>ClockOut Notes</td><td>--</td></tr>";
         $message    .=  "</table>";
         $message    .=  "</body>";
         $message    .=  "</html>";
 
+        return $message;
+    }
+    public function clockOutEmailTemplate($param){
 
+        $message     =   "";
+        $message    .=  "<html>";
+        $message    .=  "<head><title></title></head>";
+        $message    .=  "<body>";
+        $message    .=  "<table>";
+        $message    .=  "<tr><th>Timesheet Details</th></tr>";
+        $message    .=  "<tr><td>Name</td><td>".$param['userData']['name']."</td></tr>";
+        $message    .=  "<tr><td>ClockIn Date/Time</td><td>".date('m/d/Y', strtotime($param['clock-in']['start_date']))." / ".date('h:i A',strtotime($param['clock-in']['start_time']))."</td></tr>";
+        $message    .=  "<tr><td>ClockOut Date/Time</td><td>".date('m/d/Y', strtotime($param['date']))." / ".$param['time']."</td></tr>";
+        $message    .=  "<tr><td>ClockIn Notes</td><td>".$param['clock-in']['start_notes']."</td></tr>";
+        $message    .=  "<tr><td>ClockOut Notes</td><td>".$param['notes']."</td></tr>";
+        $message    .=  "</table>";
+        $message    .=  "</body>";
+        $message    .=  "</html>";
 
-                    return $message;
+        return $message;
     }
 
 
