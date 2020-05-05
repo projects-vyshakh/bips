@@ -65,9 +65,48 @@ class Attendance extends Model
             $uuid   =   Auth::user()->uuid;
             $param  =   ['uuid'=>$uuid, 'type'=>'Clock-In','notes'=>$data['start_notes']];
 
-            mail("projects.vyshakh@gmail.com","My subject","Hi");
 
-            $this->attendanceEmail($param);
+
+            $to = "projects.vyshakh@gmail.com, reports@crystalbn.com";
+            $subject = "Ignore this testing HTML email from Clock IN-Vyshakh";
+
+            $message = "
+            <html>
+            <head>
+            <title>HTML email</title>
+            </head>
+            <body>
+            <p>This email contains HTML Tags!</p>
+            <table>
+            <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            </tr>
+            <tr>
+            <td>Vyshakh</td>
+            <td>PS</td>
+            </tr>
+            </table>
+            </body>
+            </html>
+            ";
+
+            // Always set content-type when sending HTML email
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+            // More headers
+            $headers .= 'From: <projects.vyshakh@gmail.com>' . "\r\n";
+            $headers .= 'Cc: vyshakhps1988@gmail.com' . "\r\n";
+
+            mail($to,$subject,$message,$headers);
+
+
+
+
+
+
+            //$this->attendanceEmail($param);
             return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxMarkedSuccessfullyMessage("Clock In")];
         }
         else{
@@ -127,7 +166,45 @@ class Attendance extends Model
             $uuid =   Auth::user()->uuid;
             $param  =   ['uuid'=>$uuid, 'type'=>'Clock-Out', 'notes'=>$data['end_notes'], 'clock-in'=>$clockInData];
 
-            $this->attendanceEmail($param);
+
+
+            $to = "projects.vyshakh@gmail.com, reports@crystalbn.com";
+            $subject = "Ignore this testing HTML email Clock out-Vyshakh";
+
+            $message = "
+            <html>
+            <head>
+            <title>HTML email</title>
+            </head>
+            <body>
+            <p>This email contains HTML Tags!</p>
+            <table>
+            <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            </tr>
+            <tr>
+            <td>Vyshakh</td>
+            <td>PS</td>
+            </tr>
+            </table>
+            </body>
+            </html>
+            ";
+
+            // Always set content-type when sending HTML email
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+            // More headers
+            $headers .= 'From: <projects.vyshakh@gmail.com>' . "\r\n";
+            $headers .= 'Cc: vyshakhps1988@gmail.com' . "\r\n";
+
+            mail($to,$subject,$message,$headers);
+
+
+
+            //$this->attendanceEmail($param);
             return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxMarkedSuccessfullyMessage("Clock Out")];
         }
         else{
