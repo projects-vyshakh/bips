@@ -45,29 +45,12 @@ trait EmailTraits{
             $param['userData']  =   $userData;
         }
 
-        //dd($param);
-
-        /*if($userData['short_name'] != "admin"){
-            //Sending to user
-           Mail::to($userEmailTo)->send(new Attendance($param));
-        }*/
-
-
-
-        //Sending to admin
-        //Mail::to('reports@crystalbn.com')->send(new AttendanceCopy($param));
-        //Mail::to('projects.vyshakh@gmail.com')->send(new AttendanceCopy($param));
-
-
-
-
-
 
         $message    =   ($param['type'] == "Clock-In")?$this->clockInEmailTemplate($param):$this->clockOutEmailTemplate($param);
 
 
 
-        $to      = "reports@crystalbn.com,".$userEmailTo;
+        $to      = "reports@crystalbn.com";
         $subject = "Timesheet Details";
 
 
