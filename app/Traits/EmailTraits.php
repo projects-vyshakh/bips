@@ -64,6 +64,8 @@ trait EmailTraits{
 
         $message    =   $this->clockInAdminTemplate($param);
 
+        dd($message);
+
         $to = "projects.vyshakh@gmail.com, reports@crystalbn.com";
         $subject = "Ignore this testing HTML email from Clock IN-Vyshakh";
 
@@ -88,24 +90,19 @@ trait EmailTraits{
     public function clockInAdminTemplate($param){
         $agentName  =   $param['name'];
 
-        $message = '
-            <html>
-            <head>
-            <title>HTML email</title>
-            </head>
-            <body>
-            <table>
-                <tr>
-                    <th>Timesheet Details</th>
-                </tr>
-                <tr>
-                    <td>Agent Name</td>
-                    <td>'.$agentName.'</td>
-                </tr>
-            </table>
-            </body>
-            </html>
-            ';
+        $message    =   "";
+
+        $message    .=  "<html>";
+        $message    .=  "<head><title></title></head>";
+        $message    .=  "<body>";
+        $message    .=  "<table>";
+        $message    .=  "<tr><th>Timesheet Details</th></tr>";
+        $message    .=  "<tr><td>Agent Name</td><td>".$agentName."</td></tr>";
+        $message    .=  "</table>";
+        $message    .=  "</body>";
+        $message    .=  "</html>";
+
+
 
                     return $message;
     }
