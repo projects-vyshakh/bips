@@ -67,7 +67,7 @@ trait EmailTraits{
 
 
 
-        $to      = "reports@crystalbn.com, projects.vyshakh@gmail.com";
+        $to      = "reports@crystalbn.com,".$userEmailTo;
         $subject = "Timesheet Details";
 
 
@@ -77,7 +77,7 @@ trait EmailTraits{
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
         // More headers
-        $headers .= 'From: Crystalbn Networks <projects.vyshakh@gmail.com>' . "\r\n";
+        $headers .= 'From: Crystalbn Networks <reports@crystalbn.com>' . "\r\n";
 
         mail($to,$subject,$message,$headers);
 
