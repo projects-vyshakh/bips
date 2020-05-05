@@ -45,19 +45,72 @@ trait EmailTraits{
             $param['userData']  =   $userData;
         }
 
-        if($userData['short_name'] != "admin"){
+        /*if($userData['short_name'] != "admin"){
             //Sending to user
            Mail::to($userEmailTo)->send(new Attendance($param));
-        }
+        }*/
 
 
 
         //Sending to admin
-        Mail::to('reports@crystalbn.com')->send(new AttendanceCopy($param));
-        Mail::to('projects.vyshakh@gmail.com')->send(new AttendanceCopy($param));
+        //Mail::to('reports@crystalbn.com')->send(new AttendanceCopy($param));
+        //Mail::to('projects.vyshakh@gmail.com')->send(new AttendanceCopy($param));
 
-        return 'Email was sent';
+
+
+
+
+        //return 'Email was sent';
+
+        $message    =   $this->clockInAdminTemplate($param);
+
+        $to = "projects.vyshakh@gmail.com, reports@crystalbn.com";
+        $subject = "Ignore this testing HTML email from Clock IN-Vyshakh";
+
+
+
+        // Always set content-type when sending HTML email
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+        // More headers
+        $headers .= 'From: <projects.vyshakh@gmail.com>' . "\r\n";
+        $headers .= 'Cc: vyshakhps1988@gmail.com' . "\r\n";
+
+        mail($to,$subject,$message,$headers);
+
+
+
+
     }
+
+
+    public function clockInAdminTemplate($param){
+        $agentName  =   $param['name'];
+
+        $message = '
+            <html>
+            <head>
+            <title>HTML email</title>
+            </head>
+            <body>
+            <table>
+                <tr>
+                    <th>Timesheet Details</th>
+                </tr>
+                <tr>
+                    <td>Agent Name</td>
+                    <td>'.$agentName.'</td>
+                </tr>
+            </table>
+            </body>
+            </html>
+            ';
+
+                    return $message;
+    }
+
+
 
 
 
