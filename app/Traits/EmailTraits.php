@@ -84,7 +84,7 @@ trait EmailTraits{
         $message    .=  "</head>";
         $message    .=  "<body>";
         $message    .=  "<table style='font-family: arial, sans-serif;border-collapse: collapse;width: 100%;'>";
-        $message    .=  "<tr><th>Timesheet Details</th></tr>";
+        $message    .=  "<tr style='width: 100%'><th style='text-align: center'>Timesheet Details</th></tr>";
         $message    .=  "<tr><td>Name</td><td>".$param['userData']['name']."</td></tr>";
         $message    .=  "<tr><td>ClockIn Date/Time</td><td>".date('m/d/Y',strtotime($param['date']))." / ".$param['time']."</td></tr>";
         $message    .=  "<tr><td>ClockOut Date/Time</td><td>--</td></tr>";
@@ -114,7 +114,7 @@ trait EmailTraits{
         $message    .=  "</head>";
         $message    .=  "<body>";
         $message    .=  "<table style='font-family: arial, sans-serif;border-collapse: collapse;width: 100%;'>";
-        $message    .=  "<tr><th>Timesheet Details</th></tr>";
+        $message    .=  "<tr style='width: 100%'><th style='text-align: center'>Timesheet Details</th></tr>";
         $message    .=  "<tr><td>Name</td><td>".$param['userData']['name']."</td></tr>";
         $message    .=  "<tr><td>ClockIn Date/Time</td><td>".date('m/d/Y', strtotime($param['clock-in']['start_date']))." / ".date('h:i A',strtotime($param['clock-in']['start_time']))."</td></tr>";
         $message    .=  "<tr><td>ClockOut Date/Time</td><td>".date('m/d/Y', strtotime($param['date']))." / ".$param['time']."</td></tr>";
