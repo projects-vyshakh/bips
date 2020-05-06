@@ -70,9 +70,20 @@ trait EmailTraits{
     public function clockInEmailTemplate($param){
         $message     =   "";
         $message    .=  "<html>";
-        $message    .=  "<head><title></title></head>";
+        $message    .=  "<head><title></title>";
+        $message    .=  "<style>";
+        $message    .=  "td, th {
+                          border: 1px solid #dddddd;
+                          text-align: left;
+                          padding: 8px;
+                        }";
+        $message    .=  "tr:nth-child(even) {
+                          background-color: #dddddd;
+                        }";
+        $message    .=  "</style>";
+        $message    .=  "</head>";
         $message    .=  "<body>";
-        $message    .=  "<table border='1'>";
+        $message    .=  "<table style='font-family: arial, sans-serif;border-collapse: collapse;width: 100%;'>";
         $message    .=  "<tr><th>Timesheet Details</th></tr>";
         $message    .=  "<tr><td>Name</td><td>".$param['userData']['name']."</td></tr>";
         $message    .=  "<tr><td>ClockIn Date/Time</td><td>".date('m/d/Y',strtotime($param['date']))." / ".$param['time']."</td></tr>";
@@ -89,9 +100,20 @@ trait EmailTraits{
 
         $message     =   "";
         $message    .=  "<html>";
-        $message    .=  "<head><title></title></head>";
+        $message    .=  "<head><title></title>";
+        $message    .=  "<style>";
+        $message    .=  "td, th {
+                          border: 1px solid #dddddd;
+                          text-align: left;
+                          padding: 8px;
+                        }";
+        $message    .=  "tr:nth-child(even) {
+                          background-color: #dddddd;
+                        }";
+        $message    .=  "</style>";
+        $message    .=  "</head>";
         $message    .=  "<body>";
-        $message    .=  "<table>";
+        $message    .=  "<table style='font-family: arial, sans-serif;border-collapse: collapse;width: 100%;'>";
         $message    .=  "<tr><th>Timesheet Details</th></tr>";
         $message    .=  "<tr><td>Name</td><td>".$param['userData']['name']."</td></tr>";
         $message    .=  "<tr><td>ClockIn Date/Time</td><td>".date('m/d/Y', strtotime($param['clock-in']['start_date']))." / ".date('h:i A',strtotime($param['clock-in']['start_time']))."</td></tr>";
