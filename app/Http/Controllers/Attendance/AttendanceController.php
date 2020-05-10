@@ -61,5 +61,16 @@ class AttendanceController extends Controller
         return json_encode($response);
     }
 
+    public function handleBreak(Request $request){
+        if($request['action'] == 'start'){
+            $response   =   $this->attendance->startBreak($request);
+        }
+        if($request['action'] == 'stop'){
+            $response   =   $this->attendance->stopBreak($request);
+        }
+
+
+        return json_encode($response);
+    }
 
 }

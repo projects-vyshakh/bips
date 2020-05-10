@@ -1,7 +1,12 @@
 $(document).ready(function(){
-    var _token  =   $("input[name=_token]").val();
+    var _token      =   $("input[name=_token]").val();
+    var dataString  =   '_token='+_token;
+
+
+
 
     var runValidation   =   function(){
+
         $("#form").validate({
             // Specify validation rules
             rules: {
@@ -21,6 +26,7 @@ $(document).ready(function(){
     }
 
     var addClockIn  =   function(){
+
         $('.clock-in').click(function(e){
             e.preventDefault();
             var notes   =   $('.notes').val();
@@ -63,6 +69,7 @@ $(document).ready(function(){
                     $('.break-status').append('<a href="" class="btn btn-outline-success waves-effect waves-light mt-2 btn-lg break-start">Start Break</a>')
 
 
+
                     if(data['code'] == 200){
                         $('#clock-in').removeAttr('disabled');
                         $('.button-spinner').hide();
@@ -75,6 +82,12 @@ $(document).ready(function(){
                            // window.location = "punch";
                         })
                     }
+
+                    //Triggering start break;
+                    startBreak();
+                    stopBreak();
+
+
                 }
             });
 
@@ -83,7 +96,15 @@ $(document).ready(function(){
     var addClockOut  =   function(){
         $('.clock-out').click(function(e){
             e.preventDefault();
+
+            $('.error-message').remove();
+
             var notes   =   $('.out_notes').val();
+
+            if(notes==""){
+                $('.error-div').append('<p class="error-message text-danger">Please enter your notes here.</p>');
+                return false;
+            }
 
 
             $('#clock-out').attr('disabled','disabled');
@@ -91,10 +112,7 @@ $(document).ready(function(){
             $('.button-spinner').show();
             $('.spinner-text').show();
 
-            if(notes==""){
-                $('.error-div').append('<p class="error-message text-danger">Please enter your notes here.</p>');
-                return false;
-            }
+
 
             removeErrorOnNotes();
 
@@ -152,10 +170,68 @@ $(document).ready(function(){
         })
     }
 
+    var startBreak  =   function(){
+
+        $('.break-start').click(function(e){
+            dataString  +=   '&action='+'start';
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: '../handleBreak',
+                dataType: "JSON",
+                data: dataString,
+                success: function (data) {
+                    swal({
+                        title:data['title'],
+                        text: data['message'],
+                        type: data['status']
+                    });
+
+                    $('.confirm').click(function(){
+                        $('.break-stop').remove();
+                        $('.break-start').remove();
+                        $('.break-status').append('<a href="" class="btn btn-outline-danger waves-effect waves-light mt-2 btn-lg break-stop">Stop Break</a>')
+                        stopBreak();
+                    })
+
+                }
+            });
+        })
+    }
+
+    var stopBreak   =   function(){
+        $('.break-stop').click(function(e){
+            dataString  +=   '&action='+'stop';
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: '../handleBreak',
+                dataType: "JSON",
+                data: dataString,
+                success: function (data) {
+                    swal({
+                        title:data['title'],
+                        text: data['message'],
+                        type: data['status']
+                    });
+
+                    $('.confirm').click(function(){
+                        $('.break-stop').remove();
+                        $('.break-start').remove();
+                        $('.break-status').append('<a href="" class="btn btn-outline-success waves-effect waves-light mt-2 btn-lg break-start">Start Break</a>')
+                        startBreak();
+                    })
+
+                }
+            });
+        })
+    }
 
     addClockIn();
     addClockOut();
     removeErrorOnNotes();
+    startBreak();
+
     //runValidation();
 
 

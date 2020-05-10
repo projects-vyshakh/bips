@@ -202,5 +202,21 @@ trait AlertMessages{
         $msg    =   "You are already Clocked-Out. Please Clock-In.";
         return $msg;
     }
+    public function ajaxBreakStartSuccessMessage(){
+        $msg    =   "Break Time has been started.";
+        return $msg;
+    }
+    public function ajaxBreakStopSuccessMessage(){
+        $msg    =   "Break Time has been stopped.";
+        return $msg;
+    }
+    public function ajaxBreakStartFailMessage(){
+        $msg    =   "Failed to start Break Time.";
+        return $msg;
+    }
+    public function ajaxBreakStopFailMessage(){
+        $msg    =   "Failed to stop Break Time.";
+        return $msg;
+    }
 
 }

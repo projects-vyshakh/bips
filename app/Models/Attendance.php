@@ -298,4 +298,68 @@ class Attendance extends Model
         //dd();
         return $response;
     }
+
+    public function startBreak($request){
+        $uuid               =   Auth::user()->uuid;
+        $currentDateTime    =   date('Y-m-d H:i:s');
+
+        $checkClockedIn =   Attendance::where('uuid',$uuid)->orderBy('id','desc')->first();
+
+        if(!empty($checkClockedIn)){
+            if($checkClockedIn['is_clocked_out'] == "No"){
+                $dataArray  =   ['is_break_start'=>'Yes', 'break_start'=>$currentDateTime, 'break_end'=>null];
+
+
+                if(Attendance::where('uuid',$uuid)->where('id',$checkClockedIn['id'])->update($dataArray)){
+                    return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxBreakStartSuccessMessage()];
+                }
+                else{
+                    return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxBreakStartFailMessage()];
+                }
+            }
+            else{
+                return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxAlreadyClockedOutMessage()];
+            }
+        }
+        else{
+            return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>'Invalid Clock In'];
+        }
+
+
+    }
+
+    public function stopBreak($request){
+        $uuid                   =   Auth::user()->uuid;
+        $currentDateTime        =   date('Y-m-d H:i:s');
+        $totalBreakMinutes      =   0;
+
+        $checkClockedIn =   Attendance::where('uuid',$uuid)->orderBy('id','desc')->first();
+
+        if(!empty($checkClockedIn)){
+            if($checkClockedIn['is_clocked_out'] == "No"){
+                $breakTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$checkClockedIn['break_start'], 'dateTime2'=>$currentDateTime]);
+                $breakInHours   =   $breakTime['hours'];
+                $breakInMinute  =   $breakTime['minutes'];
+                $breakInSeconds =   $breakTime['seconds'];
+
+                $totalBreakMinutes   =   $totalBreakMinutes + ($breakInHours/60) + $breakInMinute + ($breakInSeconds/60) + $checkClockedIn['break'];
+
+                $dataArray  =   ['is_break_start'=>'No', 'break_end'=>$currentDateTime, 'break'=>$totalBreakMinutes];
+                if(Attendance::where('uuid',$uuid)->where('id',$checkClockedIn['id'])->update($dataArray)){
+                    return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxBreakStopSuccessMessage()];
+                }
+                else{
+                    return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxBreakStopFailMessage()];
+                }
+            }
+            else{
+                return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxAlreadyClockedOutMessage()];
+            }
+        }
+        else{
+            return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>'Invalid Clock In'];
+        }
+
+
+    }
 }

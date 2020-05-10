@@ -4,6 +4,9 @@ $(document).ready(function(){
     var currentDayType  =   $('.current-day-type').val();
 
 
+
+
+
     var alertManage =   function () {
         $('.alert').delay(3000).fadeOut(400)
     }
@@ -58,42 +61,52 @@ $(document).ready(function(){
             dataType: "JSON",
             data: dataString,
             success: function (data) {
-                console.log(data);
-                var totalSec            =   data.timerInSeconds;
-                var clockedOutStatus    =   data.data.is_clocked_out;
+                if(data.data != null){
+                    var totalSec            =   data.timerInSeconds;
+                    var clockedOutStatus    =   data.data.is_clocked_out;
+                    var breakStart          =   data.data.is_break_start;
 
-                if(totalSec!=''){
-                    var options = {
-                        timerCounter: totalSec*1000,
-                        onTick: function() {
-                            console.log(this.counter);
+                    if(totalSec!=''){
+                        var options = {
+                            timerCounter: totalSec*1000,
+                            onTick: function() {
+                                //console.log(this.counter);
+                            },
+                        };
 
+                        if(clockedOutStatus == 'No'){
+                            $(".clocker-div").timer( options ).start();
+                            $('.clocked-status').text("CLOCKED-IN").removeClass('badge-warning').addClass('badge-success');
+                            $('.punch-out').show();
+                            $('.punch-in').hide();
 
-                        },
-                    };
+                            $('.break-stop').remove();
+                            $('.break-start').remove();
+                            $('.break-status').append('<a href="" class="btn btn-outline-success waves-effect waves-light mt-2 btn-lg break-start">Start Break</a>')
 
-                    if(clockedOutStatus == 'No'){
-                        $(".clocker-div").timer( options ).start();
-                        $('.clocked-status').text("CLOCKED-IN").removeClass('badge-warning').addClass('badge-success');
-                        $('.punch-out').show();
-                        $('.punch-in').hide();
+                            startBreak();
 
-                        $('.break-stop').remove();
-                        $('.break-start').remove();
-                        $('.break-status').append('<a href="" class="btn btn-outline-success waves-effect waves-light mt-2 btn-lg break-start">Start Break</a>')
+                        }
+                        else{
+                            $(".clocker-div").timer( options ).stop();
+                            $('.clocked-status').text("CLOCKED-OUT").removeClass('badge-success').addClass('badge-warning');
+                            $('.punch-out').hide();
+                            $('.punch-in').show();
+                        }
+
+                        if(breakStart   ==  'Yes'){
+                            //$(".clocker-div").timer( options ).stop();
+
+                            $('.break-stop').remove();
+                            $('.break-start').remove();
+                            $('.break-status').append('<a href="" class="btn btn-outline-danger waves-effect waves-light mt-2 btn-lg break-stop">Stop Break</a>')
+
+                            stopBreak();
+                        }
+
 
                     }
-                    else{
-                        $(".clocker-div").timer( options ).stop();
-                        $('.clocked-status').text("CLOCKED-OUT").removeClass('badge-success').addClass('badge-warning');
-                        $('.punch-out').hide();
-                        $('.punch-in').show();
-                    }
-
-
-
                 }
-
             }
         });
 
@@ -126,9 +139,71 @@ $(document).ready(function(){
         });
     }
 
+    var startBreak  =   function(){
+
+        $('.break-start').click(function(e){
+            dataString  +=   '&action='+'start';
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: '../handleBreak',
+                dataType: "JSON",
+                data: dataString,
+                success: function (data) {
+                    swal({
+                        title:data['title'],
+                        text: data['message'],
+                        type: data['status']
+                    });
+
+                    $('.confirm').click(function(){
+                        $('.break-stop').remove();
+                        $('.break-start').remove();
+                        $('.break-status').append('<a href="" class="btn btn-outline-danger waves-effect waves-light mt-2 btn-lg break-stop">Stop Break</a>')
+                        stopBreak();
+                    })
+
+                }
+            });
+        })
+    }
+
+    var stopBreak   =   function(){
+        $('.break-stop').click(function(e){
+            dataString  +=   '&action='+'stop';
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: '../handleBreak',
+                dataType: "JSON",
+                data: dataString,
+                success: function (data) {
+                    swal({
+                        title:data['title'],
+                        text: data['message'],
+                        type: data['status']
+                    });
+
+                    $('.confirm').click(function(){
+                        $('.break-stop').remove();
+                        $('.break-start').remove();
+                        $('.break-status').append('<a href="" class="btn btn-outline-success waves-effect waves-light mt-2 btn-lg break-start">Start Break</a>')
+                        startBreak();
+                    })
+
+                }
+            });
+        })
+    }
+
+
+
+
 
     alertManage();
     showCurrentTimer();
     showTimer();
+    //startBreak();
+
 
 });
