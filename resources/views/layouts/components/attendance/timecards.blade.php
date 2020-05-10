@@ -31,8 +31,8 @@
                                 <td class="text-danger"> --</td>
                                 <td class="text-danger"> --</td>
                             @endif
-                            <td >{{$value['worked_hours']}}</td>
-                            <td >{{$value['break']}}</td>
+                            <td >{{round($value['worked_hours'],1)}}</td>
+                            <td >{{round($value['break'],1)}}</td>
                         </tr>
                     @endforeach
                 @endif
