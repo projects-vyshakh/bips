@@ -85,7 +85,7 @@ $(document).ready(function(){
 
                         actionButtonArray['selector']               =   $('.clock-out');
                         actionButtonArray['selectorAction']         =   "removeAttr";
-                        actionButtonArray['selectorAttr']           =   "Disable";
+                        actionButtonArray['selectorAttr']           =   "disabled";
                         actionButtonArray['spinnerButton']          =   $('.button-spinner');
                         actionButtonArray['spinnerButtonAction']    =   "hide";
                         actionButtonArray['spinnerText']            =   $('.spinner-text');
@@ -142,7 +142,7 @@ $(document).ready(function(){
 
                         actionButtonArray['selector']               =   $('.clock-in');
                         actionButtonArray['selectorAction']         =   "removeAttr";
-                        actionButtonArray['selectorAttr']           =   "Disable";
+                        actionButtonArray['selectorAttr']           =   "disabled";
                         actionButtonArray['spinnerButton']          =   $('.button-spinner');
                         actionButtonArray['spinnerButtonAction']    =   "hide";
                         actionButtonArray['spinnerText']            =   $('.spinner-text');
@@ -150,6 +150,9 @@ $(document).ready(function(){
                         actionButtonArray['clockIcon']              =   $('.icon-clock');
                         actionButtonArray['clockIconAction']        =   "show";
                         runActionButtons(actionButtonArray);
+
+                        //Removing if buttons already exists
+                        runRemoveElements($('.break-start, .break-stop'));
                     }
                 }
                 else{
