@@ -204,12 +204,15 @@ $(document).ready(function(){
             data: dataString,
             success: function(data)
             {
+                console.log(data);
 
                 swal({
                     title:data['title'],
                     text: data['message'],
                     type: data['status']
                 });
+
+
 
                 showTimer();
             }
@@ -350,6 +353,7 @@ $(document).ready(function(){
 
 
     addClockIn();
+    addClockOut();
     runNotesKeyChange($('.notes, .out_notes'));
 
 

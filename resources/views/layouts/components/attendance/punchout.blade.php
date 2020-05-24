@@ -32,5 +32,5 @@
 
 @section('scripts')
     @include('layouts.components.scripts.validations')
-    <script src="../public/assets/js/attendance/clockin.js"></script>
+
 @endsection

@@ -33,6 +33,6 @@
 @section('scripts')
     @include('layouts.components.scripts.validations')
     @include('layouts.components.scripts.sweetalert.sweetalert')
-    <script src="../public/assets/js/attendance/clockin.js"></script>
+
 
 @endsection
