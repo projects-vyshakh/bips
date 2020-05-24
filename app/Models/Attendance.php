@@ -166,9 +166,6 @@ class Attendance extends Model
         $time   =    $hours.":".$minutes.":".$seconds;
 
 
-        if(!empty($break)){
-            $time   =   date('H:i:s',strtotime($time.' -'.$break.' minutes'));
-        }
 
 
         //Conversion of time to seconds
@@ -196,10 +193,11 @@ class Attendance extends Model
         if(!empty($data)){
 
             foreach($data as $value){
-                $start     =   $value['start'];
-                $end       =   $value['end'];
-                $break     =   $value['break'];
-                $end       =    !empty($end)?$end:0;
+                $start          =   $value['start'];
+                $end            =   $value['end'];
+                $break          =   $value['break'];
+                $isClockedOut   =   $value['is_clocked_out'];
+                $end            =    !empty($end)?$end:0;
 
                 $convertedDateTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$start, 'dateTime2'=>$end]);
                 $hours                  =   $convertedDateTime['hours'];
@@ -233,7 +231,8 @@ class Attendance extends Model
                     'worked_hours'  =>  $hours.".".$minutes,
                     'break'         =>  $break,
                     'total_hours'   =>  $totalHours.".".$totalMinutes,
-                    'net_hours'     =>  $time
+                    'net_hours'     =>  $time,
+                    'is_clocked_out'=>  $isClockedOut
 
                 ];
             }
@@ -288,7 +287,7 @@ class Attendance extends Model
 
         if(!empty($checkClockedIn)){
             if($checkClockedIn['is_clocked_out'] == "No"){
-                $breakTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$checkClockedIn['start'], 'dateTime2'=>$today]);
+                $breakTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$checkClockedIn['break_start'], 'dateTime2'=>$today]);
                 $breakInHours   =   $breakTime['hours'];
                 $breakInMinute  =   $breakTime['minutes'];
                 $breakInSeconds =   $breakTime['seconds'];

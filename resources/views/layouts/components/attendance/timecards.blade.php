@@ -24,7 +24,7 @@
                                 <i class="far fa-calendar-alt"></i>&nbsp;{{date('d-M-Y', strtotime($value['start']))}}&nbsp;&nbsp;
                                 |&nbsp;&nbsp;<i class="far fa-clock"></i>&nbsp;{{date('h:i:s A', strtotime($value['start']))}}
                             </td>
-                            @if(!empty($value['end']))
+                            @if(!empty($value['end']) && $value['is_clocked_out'] == "Yes")
                                 <td class="text-warning">
                                     <i class="far fa-calendar-alt"></i>&nbsp;{{date('d-M-Y', strtotime($value['end']))}}&nbsp;&nbsp;
                                     |&nbsp;&nbsp;<i class="far fa-clock"></i>&nbsp;{{date('h:i:s A', strtotime($value['end']))}}
