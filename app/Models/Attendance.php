@@ -19,47 +19,39 @@ class Attendance extends Model
     use FunctionTraits;
 
     public function addClockIn($request){
-        $startDate      =   date('Y-m-d');
-        $startTime      =   date('h:i:s a');
+        $today          =   date('Y-m-d H:i:s');
         $idUser         =   Auth::user()->id;
         $uuid           =   Auth::user()->uuid;
         $notes          =   $request['notes'];
 
-        if(empty($idUser) || empty($uuid) || empty($startDate) || empty($startTime)){
+        if(empty($idUser) || empty($uuid) ||  empty($today)){
             return  ['code'=>400,'title'=>'Error','message'=>$this->insufficientData(),'status'=>'error'];
         }
 
         $dataArray  =   [
             'id_user'               =>  $idUser,
             'uuid'                  =>  $uuid,
-            'start_date'            =>  $startDate,
-            'start_time'            =>  $startTime,
+            'start'                 =>  $today,
+            'end'                   =>  null,
             'start_notes'           =>  $notes,
             'is_clocked_out'        =>  'No',
             'created_at'            =>  date('Y-m-d h;i:s'),
             'updated_at'            =>  date('Y-m-d h;i:s')
         ];
 
-        $checkClockedIn =   Attendance::where('start_date',$startDate)
-            ->where('start_time','<=',$startTime)
-            ->where('uuid',$uuid)
-            ->orderBy('start_date','desc')
-            ->orderBy('start_time','desc')
-            ->first();
 
-        if(empty($checkClockedIn)){
-            //insert
-            $response   =   $this->saveClockIn($dataArray);
-            return $response;
-        }
-        else{
-            if($checkClockedIn['is_clocked_out'] == 'Yes'){
-                $response   =   $this->saveClockIn($dataArray);
-                return $response;
+        $checkClockedIn =   Attendance::where('uuid',$uuid)->orderBy('start','desc')->first();
+
+        if(!empty($checkClockedIn)){
+            if($checkClockedIn['is_clocked_out']=='Yes'){
+                return $this->saveClockIn($dataArray);
             }
             else{
-                return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxAlreadyClockInMessage()];
+                return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxIncompleteClockOutMessage()];
             }
+        }
+        else{
+            return $this->saveClockIn($dataArray);
         }
 
     }
@@ -78,35 +70,24 @@ class Attendance extends Model
     }
 
     public function addClockOut($request){
-        $endDate        =   date('Y-m-d');
-        $endTime        =   date('h:i:s a');
+        $today          =   date('Y-m-d H:i:s');
         $idUser         =   Auth::user()->id;
         $uuid           =   Auth::user()->uuid;
         $notes          =   $request['notes'];
 
 
-        if(empty($idUser) || empty($uuid) || empty($endDate) || empty($endTime)){
+        if(empty($idUser) || empty($uuid) ||  empty($today)){
             return  ['code'=>400,'title'=>'Error','message'=>$this->insufficientData(),'status'=>'error'];
         }
 
         $dataArray  =   [
-            'end_date'            =>  $endDate,
-            'end_time'            =>  $endTime,
+            'end'                => $today,
             'end_notes'           =>  $notes,
             'is_clocked_out'      =>  'Yes',
             'updated_at'          =>  date('Y-m-d h;i:s')
         ];
 
-        $checkClockedIn =   Attendance::where('uuid',$uuid)
-            ->where('start_date', $endDate)
-            ->where('start_time','<=', $endTime)
-            ->orderBy('start_date','desc')
-            ->orderBy('start_time','desc')
-            ->first();
-
-
-
-
+        $checkClockedIn =   Attendance::where('uuid',$uuid)->orderBy('start','desc')->first();
 
         if(empty($checkClockedIn)){
             //insert
@@ -114,11 +95,17 @@ class Attendance extends Model
         }
         else{
             if($checkClockedIn['is_clocked_out'] == 'No'){
-                $response   =   $this->saveClockOut($dataArray, $checkClockedIn);
-                return $response;
+                if($checkClockedIn['is_break_start'] == 'No'){
+                    $response   =   $this->saveClockOut($dataArray, $checkClockedIn);
+                    return $response;
+                }
+                else{
+                    return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxBreakStopMessage()];
+                }
+
             }
             else{
-                return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxAlreadyClockOutMessage()];
+                return ['code'=>400, 'status'=>'warning','title'=>'Warning','message'=>$this->ajaxAlreadyClockedOutMessage()];
             }
         }
 
@@ -142,8 +129,7 @@ class Attendance extends Model
 
     public function lastClockedIn($request){
         $idUser             =   Auth::user()->id;
-        $startDate          =   date('Y-m-d');
-        $startTime          =   date('h:i:s a');
+        $today              =   date('Y-m-d H:i:s');
         $time               =   0;
         $hours              =   0;
         $minutes            =   0;
@@ -151,45 +137,20 @@ class Attendance extends Model
         $break              =   0;
         $totalClockedOut    =   0;
 
-
-
-
-        //Fetching latest data
-        $latestData   =   Attendance::where('start_date',$startDate)
-            ->where('start_time','<=',$startTime)
-            ->orderBy('start_date','desc')->orderBy('start_time','desc')
-            ->where('id_user', $idUser)
-            ->first();
-
-        // dd($latestData);
-
-        $data   =   Attendance::where('start_date',$startDate)->where('id_user', $idUser)->get();
-
+        $latestData     =   Attendance::orderBy('start','desc')->where('uuid', Auth::user()->uuid)->first();
+        $data           =   Attendance::where('uuid', Auth::user()->uuid)->get();
 
         if(!empty($data)){
             foreach($data as $value){
-                $clockedIn  =   $value['start_time'];
-                $clockedOut =   $value['end_time'];
-                $dateTime1  =   $startDate." ".$clockedIn;
+                $start      =   $value['start'];
+                $end        =   $value['end'];
                 $breakTime  =   $value['break'];
-
-
-                if(!empty($clockedOut)){
-                    $dateTime2  =   $startDate." ".$clockedOut;
-                }
-                else{
-                    $dateTime2  =   $startDate." ".$startTime;
-                }
-
-
-
-                $diff       =   $this->dateTimeToYMDHMS(['dateTime1'=>$dateTime1, 'dateTime2'=>$dateTime2]);
-
+                $end        =   !empty($end)?$end: $today;
+                $diff       =   $this->dateTimeToYMDHMS(['dateTime1' => $start, 'dateTime2' => $end]);
                 $hours      =   $hours + $diff['hours'];
                 $minutes    =   $minutes + $diff['minutes'];
                 $seconds    =   $seconds + $diff['seconds'];
                 $break      =   $break + $breakTime;
-
             }
 
             if($seconds >= 60){
@@ -204,8 +165,9 @@ class Attendance extends Model
 
         $time   =    $hours.":".$minutes.":".$seconds;
 
+
         if(!empty($break)){
-            $time   =   date('h:i:s',strtotime($time.' -'.$break.' minutes'));
+            $time   =   date('H:i:s',strtotime($time.' -'.$break.' minutes'));
         }
 
 
@@ -219,10 +181,7 @@ class Attendance extends Model
     }
 
     public function getTimeCardDetails($request){
-        $data   =   Attendance::where('uuid', Auth::user()->uuid)
-            ->orderBy('start_date','desc')
-            ->orderBy('start_time', 'desc')
-            ->get();
+        $data   =   Attendance::where('uuid', Auth::user()->uuid)->orderBy('start','desc')->get();
 
         $totalHours     =   0;
         $totalMinutes   =   0;
@@ -237,23 +196,12 @@ class Attendance extends Model
         if(!empty($data)){
 
             foreach($data as $value){
-                $startDate  =   $value['start_date'];
-                $startTime  =   $value['start_time'];
-                $endDate    =   $value['end_date'];
-                $endTime    =   $value['end_time'];
-                $break      =   $value['break'];
+                $start     =   $value['start'];
+                $end       =   $value['end'];
+                $break     =   $value['break'];
+                $end       =    !empty($end)?$end:0;
 
-
-                $dateTime1  =   $startDate." ".date('h:i:s',strtotime($startTime));
-
-                if(!empty($endTime)){
-                    $dateTime2  =   $endDate." ".date('h:i:s',strtotime($endTime));
-                }
-                else{
-                    $dateTime2  =   0;
-                }
-
-                $convertedDateTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$dateTime1, 'dateTime2'=>$dateTime2]);
+                $convertedDateTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$start, 'dateTime2'=>$end]);
                 $hours                  =   $convertedDateTime['hours'];
                 $minutes                =   $convertedDateTime['minutes'];
                 $seconds                =   $convertedDateTime['seconds'];
@@ -280,10 +228,8 @@ class Attendance extends Model
                 }
 
                 $response[] =   [
-                    'start_date'    =>  $startDate,
-                    'start_time'    =>  $startTime,
-                    'end_date'      =>  $endDate,
-                    'end_time'      =>  $endTime,
+                    'start'         =>  $start,
+                    'end'           =>  $end,
                     'worked_hours'  =>  $hours.".".$minutes,
                     'break'         =>  $break,
                     'total_hours'   =>  $totalHours.".".$totalMinutes,
@@ -300,14 +246,19 @@ class Attendance extends Model
     }
 
     public function startBreak($request){
-        $uuid               =   Auth::user()->uuid;
-        $currentDateTime    =   date('Y-m-d H:i:s');
+        $uuid     =   Auth::user()->uuid;
+        $today    =   date('Y-m-d H:i:s');
 
         $checkClockedIn =   Attendance::where('uuid',$uuid)->orderBy('id','desc')->first();
 
         if(!empty($checkClockedIn)){
             if($checkClockedIn['is_clocked_out'] == "No"){
-                $dataArray  =   ['is_break_start'=>'Yes', 'break_start'=>$currentDateTime, 'break_end'=>null];
+                $dataArray  =   [
+                    'is_break_start'    =>  'Yes',
+                    'break_start'       =>  $today,
+                    'break_end'         =>  null,
+                    'end'               =>  $today
+                ];
 
 
                 if(Attendance::where('uuid',$uuid)->where('id',$checkClockedIn['id'])->update($dataArray)){
@@ -330,21 +281,26 @@ class Attendance extends Model
 
     public function stopBreak($request){
         $uuid                   =   Auth::user()->uuid;
-        $currentDateTime        =   date('Y-m-d H:i:s');
+        $today                  =   date('Y-m-d H:i:s');
         $totalBreakMinutes      =   0;
 
         $checkClockedIn =   Attendance::where('uuid',$uuid)->orderBy('id','desc')->first();
 
         if(!empty($checkClockedIn)){
             if($checkClockedIn['is_clocked_out'] == "No"){
-                $breakTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$checkClockedIn['break_start'], 'dateTime2'=>$currentDateTime]);
+                $breakTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$checkClockedIn['start'], 'dateTime2'=>$today]);
                 $breakInHours   =   $breakTime['hours'];
                 $breakInMinute  =   $breakTime['minutes'];
                 $breakInSeconds =   $breakTime['seconds'];
 
                 $totalBreakMinutes   =   $totalBreakMinutes + ($breakInHours/60) + $breakInMinute + ($breakInSeconds/60) + $checkClockedIn['break'];
 
-                $dataArray  =   ['is_break_start'=>'No', 'break_end'=>$currentDateTime, 'break'=>$totalBreakMinutes];
+                $dataArray  =   [
+                    'is_break_start'    =>  'No',
+                    'break_end'         =>  $today,
+                    'break'             =>  $totalBreakMinutes,
+                    'end'               =>  null,
+                ];
                 if(Attendance::where('uuid',$uuid)->where('id',$checkClockedIn['id'])->update($dataArray)){
                     return ['code'=>200, 'status'=>'success','title'=>'Success','message'=>$this->ajaxBreakStopSuccessMessage()];
                 }

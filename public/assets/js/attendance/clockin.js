@@ -41,7 +41,7 @@ $(document).ready(function(){
                 return false;
             }
 
-            removeErrorOnNotes();
+           // removeErrorOnNotes();
 
             var dataString    =   "_token="+_token+'&notes='+notes;
             $.ajax({
@@ -227,7 +227,7 @@ $(document).ready(function(){
         })
     }
 
-    addClockIn();
+    //addClockIn();
     addClockOut();
     removeErrorOnNotes();
     startBreak();

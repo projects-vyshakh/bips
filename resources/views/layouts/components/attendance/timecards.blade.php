@@ -7,10 +7,8 @@
                 <thead>
                     <tr class="text-center font-weight-bolder">
                         <th>SL.NO</th>
-                        <th>CLOCKED-IN DATE</th>
-                        <th>CLOCKED-IN TIME</th>
-                        <th>CLOCKED-OUT DATE</th>
-                        <th>CLOCKED-OUT TIME</th>
+                        <th>CLOCKED-IN</th>
+                        <th>CLOCKED-OUT</th>
                         <th>WORK HOURS</th>
                         <th>BREAK TIME</th>
                     </tr>
@@ -22,17 +20,21 @@
                     @foreach($data as $index=> $value)
                         <tr class="text-center">
                             <td >{{$index+1}}</td>
-                            <td class="text-success">{{$value['start_date']}}</td>
-                            <td class="text-success">{{$value['start_time']}}</td>
-                            @if(!empty($value['end_date']))
-                                <td class="text-warning"> {{$value['end_date']}} </td>
-                                <td class="text-warning"> {{$value['end_time']}} </td>
+                            <td class="text-success">
+                                <i class="far fa-calendar-alt"></i>&nbsp;{{date('d-M-Y', strtotime($value['start']))}}&nbsp;&nbsp;
+                                |&nbsp;&nbsp;<i class="far fa-clock"></i>&nbsp;{{date('h:i:s A', strtotime($value['start']))}}
+                            </td>
+                            @if(!empty($value['end']))
+                                <td class="text-warning">
+                                    <i class="far fa-calendar-alt"></i>&nbsp;{{date('d-M-Y', strtotime($value['end']))}}&nbsp;&nbsp;
+                                    |&nbsp;&nbsp;<i class="far fa-clock"></i>&nbsp;{{date('h:i:s A', strtotime($value['end']))}}
+                                </td>
+
                             @else
                                 <td class="text-danger"> --</td>
-                                <td class="text-danger"> --</td>
                             @endif
-                            <td >{{round($value['worked_hours'],1)}}</td>
-                            <td >{{round($value['break'],1)}}</td>
+                            <td class="font-weight-bold">{{round($value['worked_hours'],1)}}</td>
+                            <td class="font-weight-bold">{{round($value['break'],1)}}</td>
                         </tr>
                     @endforeach
                 @endif
@@ -40,7 +42,6 @@
                 @if(!empty($data))
                 <tfoot>
                 <tr class="text-center">
-                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>

@@ -16,5 +16,7 @@
 
 
 @section('scripts')
+    {{--<script src="../public/assets/js/attendance/break.js"></script>--}}
     <script src="../public/assets/js/attendance/break.js"></script>
+
 @endsection

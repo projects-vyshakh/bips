@@ -22,7 +22,11 @@
 {{--Clocker Script--}}
 <script type="text/javascript" src="../public/assets/libs/tiny-timer/dist/jquery.tinytimer.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
+
 <script src="../public/assets/js/scripts-main.js"></script>
+
+
 
 
 

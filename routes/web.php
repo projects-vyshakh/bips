@@ -80,7 +80,7 @@ Route::group([ 'middleware' => ['auth','web','rolesAndScreen'], 'prefix'=>'agent
 
 Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'agent'], function () {
 
-    Route::any('/handleClockIn','Attendance\ClockInController@handleClockIn');
+    //Route::any('/handleClockIn','Attendance\ClockInController@handleClockIn');
     Route::any('/handleClockOut','Attendance\ClockOutController@handleClockOut');
 
     Route::get('/laravel-send-email', 'Attendance\AttendanceController@mail');
