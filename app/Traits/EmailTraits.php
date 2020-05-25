@@ -80,9 +80,10 @@ trait EmailTraits{
         return $message;
     }
     public function clockOutEmailTemplate($param){
-        $param              =   $this->dateTimeToYMDHMS(['dateTime1'=> $param['clock-in']['start'], 'dateTime2'=>$param['date']]);
-        $param['convertTo'] =   'Hours';
-        $workedHours        =   $this->convertYMDHMSToHMS($param);
+
+        $workedHoursParam              =   $this->dateTimeToYMDHMS(['dateTime1'=> $param['clock-in']['start'], 'dateTime2'=>$param['date']]);
+        $workedHoursParam['convertTo'] =   'Hours';
+        $workedHours                   =   $this->convertYMDHMSToHMS($workedHoursParam);
 
         $breakParam['minutes']       =   $param['clock-in']['break'];
         $breakParam['convertTo']     =   "MinutesToHours";

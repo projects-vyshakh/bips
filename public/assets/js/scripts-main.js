@@ -105,7 +105,7 @@ $(document).ready(function(){
 
                             //Appending Start Break
                             appendArray['appendTo']        =   $('.break-status');
-                            appendArray['appendString']    =   "<a href='' class='btn btn-outline-success waves-effect waves-light mt-2 btn-lg break-start'>Start Break</a>";
+                            appendArray['appendString']    =   "<a href='' class='btn btn-outline-success waves-effect waves-light mt-2 btn-lg col-sm-6 col-md-4 break-start'>Start Break</a>";
                             appendArray['breakStatus']     =    breakStart;
                             runAppendToDom(appendArray);
                         }
@@ -122,7 +122,7 @@ $(document).ready(function(){
 
                             //Appending Start Break
                             appendArray['appendTo']        =   $('.break-status');
-                            appendArray['appendString']    =   "<a href='' class='btn btn-outline-danger waves-effect waves-light mt-2 btn-lg break-stop'>Stop Break</a>";
+                            appendArray['appendString']    =   "<a href='' class='btn btn-outline-danger waves-effect waves-light mt-2 btn-lg col-sm-6 col-md-4 break-stop'>Stop Break</a>";
                             appendArray['breakStatus']     =    breakStart;
                             runAppendToDom(appendArray);
                         }

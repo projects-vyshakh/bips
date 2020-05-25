@@ -14,7 +14,7 @@
                 </div>
 
                 <div class="text-center">
-                    <button type="submit" id="clock-in" class="btn btn-outline-primary waves-effect waves-light mt-2 btn-lg clock-in">
+                    <button type="submit" id="clock-in" class="btn btn-outline-primary waves-effect waves-light mt-2 btn-lg col-sm-6 col-md-4 clock-in">
                         <i class="fe-clock icon-clock"></i>
                         <span class="spinner-border spinner-border-sm mr-1 button-spinner" role="status" aria-hidden="false" style="display: none"></span>
                         <span class="spinner-text" style="display: none">Please Wait...</span>
