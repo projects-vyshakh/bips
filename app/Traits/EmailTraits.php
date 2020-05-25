@@ -68,7 +68,7 @@ trait EmailTraits{
         $message .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
         $message .= "<tr style='background: #eee;'><td><strong>Name:</strong> </td><td>" . strip_tags($param['userData']['name']) . "</td></tr>";
         $message .= "<tr><td><strong>Email:</strong> </td><td>" . strip_tags($param['userData']['email']) . "</td></tr>";
-        $message .= "<tr><td><strong>Clocked In Date/Time:</strong> </td><td>" . $param['date'] . "</td></tr>";
+        $message .= "<tr><td><strong>Clocked In Date/Time:</strong> </td><td>" . date('m/d/Y h:i a', strtotime($param['date'])) . "</td></tr>";
         $message .= "<tr><td><strong>Clocked In Notes:</strong> </td><td>" . $param['notes'] . "</td></tr>";
         $message .= "<tr><td><strong>Clocked Out Date/Time:</strong> </td><td>" .  " --- </td></tr>";
         $message .= "<tr><td><strong>Clocked Out Notes:</strong> </td><td>" . " --- </td></tr>";
