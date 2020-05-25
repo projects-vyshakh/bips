@@ -100,7 +100,7 @@ trait EmailTraits{
         $message .= "<tr><td><strong>Email:</strong> </td><td>" . strip_tags($param['userData']['email']) . "</td></tr>";
         $message .= "<tr><td><strong>Clocked In Date/Time:</strong> </td><td>" . strip_tags(date('m/d/Y h:i a', strtotime($param['clock-in']['start']))) . "</td></tr>";
         $message .= "<tr><td><strong>Clocked In Notes:</strong> </td><td>" . $param['clock-in']['start_notes'] . "</td></tr>";
-        $message .= "<tr><td><strong>Clocked Out Date/Time:</strong> </td><td>" .$param['date'].  "</td></tr>";
+        $message .= "<tr><td><strong>Clocked Out Date/Time:</strong> </td><td>" .date('m/d/Y h:i a', strtotime($param['date'])).  "</td></tr>";
         $message .= "<tr><td><strong>Clocked Out Notes:</strong> </td><td>" .$param['notes']. "</td></tr>";
         $message .= "<tr><td><strong>Worked Hours:</strong> </td><td>" .$workedHours. "</td></tr>";
         $message .= "<tr><td><strong>Break Time:</strong> </td><td>" .$breakTime. "</td></tr>";
