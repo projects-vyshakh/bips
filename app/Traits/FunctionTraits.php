@@ -94,17 +94,47 @@ trait FunctionTraits{
             $seconds    =   ($seconds<10 && $seconds!=0)?"0".$seconds: $seconds;
         }
 
+        return  ['years'=>$years, 'months'=>$months,'days'=>$days, 'hours'=>$hours, 'minutes'=>$minutes, 'seconds'=>$seconds];
+
+
+    }
+
+    public function convertYMDHMSToHMS($param){
+        if(!empty($param['convertTo'])){
+            switch($param['convertTo']){
+                case 'Hours':
+                    $hours      =   $param['hours'];
+                    $minutes    =   $param['minutes'];
+                    $seconds    =   $param['seconds'];
+
+                    if($seconds >= 60){
+                        $minutes    =   $minutes + 1;
+
+                    }
+                    if($minutes >= 60){
+                        $hours    =   $hours + 1;
+                        $minutes    =   0;
+                    }
+
+                    if($minutes == 0){
+                        return round($hours);
+                    }
+                    else{
+                        return round($hours.".".$minutes, 2);
+                    }
 
 
 
+                    break;
 
+                case 'MinutesToHours':
+                    $minutes    =   $param['minutes'];
+                    $hours      =   $minutes/60;
+                    return round($hours, 2);
+                    break;
+            }
 
-        return ['years'=>$years, 'months'=>$months,'days'=>$days, 'hours'=>$hours, 'minutes'=>$minutes, 'seconds'=>$seconds];
-
-
-
-
-
+        }
     }
 
 

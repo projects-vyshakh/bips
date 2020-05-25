@@ -25,7 +25,7 @@ trait EmailTraits{
     public function attendanceEmail($param){
 
         $userEmailTo    =   "";
-        $today          =   date('m/d/Y h:i A');
+        $today          =   date('m/d/Y H:i:s');
         $param['date']  =   $today;
 
         if(!empty($param['uuid'])){
@@ -72,12 +72,25 @@ trait EmailTraits{
         $message .= "<tr><td><strong>Clocked In Notes:</strong> </td><td>" . $param['notes'] . "</td></tr>";
         $message .= "<tr><td><strong>Clocked Out Date/Time:</strong> </td><td>" .  " --- </td></tr>";
         $message .= "<tr><td><strong>Clocked Out Notes:</strong> </td><td>" . " --- </td></tr>";
+        $message .= "<tr><td><strong>Worked Hours:</strong> </td><td>" . " --- </td></tr>";
+        $message .= "<tr><td><strong>Break Time:</strong> </td><td>" . " --- </td></tr>";
         $message .= "</table>";
         $message .= "</body></html>";
 
         return $message;
     }
     public function clockOutEmailTemplate($param){
+        $param              =   $this->dateTimeToYMDHMS(['dateTime1'=> $param['clock-in']['start'], 'dateTime2'=>$param['date']]);
+        $param['convertTo'] =   'Hours';
+        $workedHours        =   $this->convertYMDHMSToHMS($param);
+
+        $breakParam['minutes']       =   $param['clock-in']['break'];
+        $breakParam['convertTo']     =   "MinutesToHours";
+        $breakTime                   =   $this->convertYMDHMSToHMS($breakParam);
+
+
+
+
         $message = '<html><body>';
         //$message .= '<img src="//css-tricks.com/examples/WebsiteChangeRequestForm/images/wcrf-header.png" alt="Website Change Request" />';
         $message .= '<h4>Timesheet Details</h4>';
@@ -88,6 +101,8 @@ trait EmailTraits{
         $message .= "<tr><td><strong>Clocked In Notes:</strong> </td><td>" . $param['clock-in']['start_notes'] . "</td></tr>";
         $message .= "<tr><td><strong>Clocked Out Date/Time:</strong> </td><td>" .$param['date'].  "</td></tr>";
         $message .= "<tr><td><strong>Clocked Out Notes:</strong> </td><td>" .$param['notes']. "</td></tr>";
+        $message .= "<tr><td><strong>Worked Hours:</strong> </td><td>" .$workedHours. "</td></tr>";
+        $message .= "<tr><td><strong>Break Time:</strong> </td><td>" .$breakTime. "</td></tr>";
         $message .= "</table>";
         $message .= "</body></html>";
 
