@@ -43,7 +43,7 @@ trait EmailTraits{
         $message    =   ($param['type'] == "Clock-In")?$this->clockInEmailTemplate($param):$this->clockOutEmailTemplate($param);
 
 
-        $to      = "proejcts.vyshakh@gmail.com";
+        $to      = "projects.vyshakh@gmail.com";
         //$to      = "notificationscbn@gmail.com ,".$userEmailTo;
         $subject = "Timesheet Details - ".$param['userData']['name']. " (".$param['userData']['roles'].")";
 
