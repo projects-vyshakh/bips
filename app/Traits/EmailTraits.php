@@ -45,7 +45,7 @@ trait EmailTraits{
 
         //$to      = "reports@crystalbn.com,".$userEmailTo;
         $to      = "notificationscbn@gmail.com ,".$userEmailTo;
-        $subject = "Timesheet Details - ".$param['userData']['name']. " (".$param['roles'].")";
+        $subject = "Timesheet Details - ".$param['userData']['name']. " (".$param['userData']['roles'].")";
 
 
 
