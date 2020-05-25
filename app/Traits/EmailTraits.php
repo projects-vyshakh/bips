@@ -26,18 +26,7 @@ trait EmailTraits{
 
         $userEmailTo    =   "";
         $today          =   date('d-M-Y H:i A');
-        $currentTime    =   date('h:i A');
-        $currentDate    =   date('d-M-Y');
-
-
-        $param['date']  =   $currentDate;
-        $param['time']  =   $currentTime;
-
         $param['date']  =   $today;
-
-
-
-
 
         if(!empty($param['uuid'])){
             $userData           =   User::where('users.uuid',$param['uuid'])->where('users.status','Active')
@@ -46,6 +35,7 @@ trait EmailTraits{
                 ->select('users.name','users.email','users.status','r.name as roles', 'r.short_name as short_name')
                 ->first();
             $userEmailTo        =   $userData['email'];
+            //$name               =   $userData['name'];
             $param['userData']  =   $userData;
         }
 
@@ -55,7 +45,7 @@ trait EmailTraits{
 
         //$to      = "reports@crystalbn.com,".$userEmailTo;
         $to      = "notificationscbn@gmail.com ,".$userEmailTo;
-        $subject = "Timesheet Details";
+        $subject = "Timesheet Details - ".$param['userData']['name']. " (".$param['roles'].")";
 
 
 
@@ -104,7 +94,7 @@ trait EmailTraits{
         $message .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
         $message .= "<tr style='background: #eee;'><td><strong>Name:</strong> </td><td>" . strip_tags($param['userData']['name']) . "</td></tr>";
         $message .= "<tr><td><strong>Email:</strong> </td><td>" . strip_tags($param['userData']['email']) . "</td></tr>";
-        $message .= "<tr><td><strong>Clocked In Date/Time:</strong> </td><td>" . strip_tags(date('m/d/Y',strtotime($param['date']))) . "</td></tr>";
+        $message .= "<tr><td><strong>Clocked In Date/Time:</strong> </td><td>" . strip_tags(date('m/d/Y h:i a',strtotime($param['date']))) . "</td></tr>";
         $message .= "<tr><td><strong>Clocked In Notes:</strong> </td><td>" . $param['notes'] . "</td></tr>";
         $message .= "<tr><td><strong>Clocked Out Date/Time:</strong> </td><td>" .  " --- </td></tr>";
         $message .= "<tr><td><strong>Clocked Out Notes:</strong> </td><td>" . " --- </td></tr>";
@@ -147,9 +137,9 @@ trait EmailTraits{
         $message .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
         $message .= "<tr style='background: #eee;'><td><strong>Name:</strong> </td><td>" . strip_tags($param['userData']['name']) . "</td></tr>";
         $message .= "<tr><td><strong>Email:</strong> </td><td>" . strip_tags($param['userData']['email']) . "</td></tr>";
-        $message .= "<tr><td><strong>Clocked In Date/Time:</strong> </td><td>" . strip_tags(date('m/d/Y', strtotime($param['clock-in']['start']))) . "</td></tr>";
+        $message .= "<tr><td><strong>Clocked In Date/Time:</strong> </td><td>" . strip_tags(date('m/d/Y h:i a', strtotime($param['clock-in']['start']))) . "</td></tr>";
         $message .= "<tr><td><strong>Clocked In Notes:</strong> </td><td>" . $param['clock-in']['start_notes'] . "</td></tr>";
-        $message .= "<tr><td><strong>Clocked Out Date/Time:</strong> </td><td>" .date('m/d/Y', strtotime($param['date'])).  "</td></tr>";
+        $message .= "<tr><td><strong>Clocked Out Date/Time:</strong> </td><td>" .date('m/d/Y h:i a', strtotime($param['date'])).  "</td></tr>";
         $message .= "<tr><td><strong>Clocked Out Notes:</strong> </td><td>" .$param['notes']. "</td></tr>";
         $message .= "</table>";
         $message .= "</body></html>";
