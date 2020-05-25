@@ -16,10 +16,10 @@ trait EmailTraits{
 
     public function mail()
     {
-        $name = 'Krunal';
+        /*$name = 'Krunal';
         Mail::to('vyshakhps1988@gmail.com')->send(new MailNotify($name));
 
-        return 'Email was sent';
+        return 'Email was sent';*/
     }
 
     public function attendanceEmail($param){
