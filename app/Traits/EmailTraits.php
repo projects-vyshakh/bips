@@ -25,7 +25,7 @@ trait EmailTraits{
     public function attendanceEmail($param){
 
         $userEmailTo    =   "";
-        $today          =   date('d/m/Y H:i A');
+        $today          =   date('m/d/Y h:i A');
         $param['date']  =   $today;
 
         if(!empty($param['uuid'])){
