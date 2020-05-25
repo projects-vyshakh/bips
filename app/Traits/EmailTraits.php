@@ -25,11 +25,15 @@ trait EmailTraits{
     public function attendanceEmail($param){
 
         $userEmailTo    =   "";
+        $today          =   date('d-M-Y H:i A');
         $currentTime    =   date('h:i A');
         $currentDate    =   date('d-M-Y');
 
+
         $param['date']  =   $currentDate;
         $param['time']  =   $currentTime;
+
+        $param['date']  =   $today;
 
 
 
@@ -68,7 +72,7 @@ trait EmailTraits{
 
 
     public function clockInEmailTemplate($param){
-        $message     =   "";
+        /*$message     =   "";
         $message    .=  "<html>";
         $message    .=  "<head><title></title>";
         $message    .=  "<style>";
@@ -92,13 +96,26 @@ trait EmailTraits{
         $message    .=  "<tr><td>ClockOut Notes</td><td>--</td></tr>";
         $message    .=  "</table>";
         $message    .=  "</body>";
-        $message    .=  "</html>";
+        $message    .=  "</html>";*/
+
+        $message = '<html><body>';
+        //$message .= '<img src="//css-tricks.com/examples/WebsiteChangeRequestForm/images/wcrf-header.png" alt="Website Change Request" />';
+        $message .= '<h4>Timesheet Details</h4>';
+        $message .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
+        $message .= "<tr style='background: #eee;'><td><strong>Name:</strong> </td><td>" . strip_tags($param['userData']['name']) . "</td></tr>";
+        $message .= "<tr><td><strong>Email:</strong> </td><td>" . strip_tags($param['userData']['email']) . "</td></tr>";
+        $message .= "<tr><td><strong>Clocked In Date/Time:</strong> </td><td>" . strip_tags(date('m/d/Y',strtotime($param['date']))) . "</td></tr>";
+        $message .= "<tr><td><strong>Clocked In Notes:</strong> </td><td>" . $param['notes'] . "</td></tr>";
+        $message .= "<tr><td><strong>Clocked Out Date/Time:</strong> </td><td>" .  " --- </td></tr>";
+        $message .= "<tr><td><strong>Clocked Out Notes:</strong> </td><td>" . " --- </td></tr>";
+        $message .= "</table>";
+        $message .= "</body></html>";
 
         return $message;
     }
     public function clockOutEmailTemplate($param){
 
-        $message     =   "";
+        /*$message     =   "";
         $message    .=  "<html>";
         $message    .=  "<head><title></title>";
         $message    .=  "<style>";
@@ -122,7 +139,20 @@ trait EmailTraits{
         $message    .=  "<tr><td>ClockOut Notes</td><td>".$param['notes']."</td></tr>";
         $message    .=  "</table>";
         $message    .=  "</body>";
-        $message    .=  "</html>";
+        $message    .=  "</html>";*/
+
+        $message = '<html><body>';
+        //$message .= '<img src="//css-tricks.com/examples/WebsiteChangeRequestForm/images/wcrf-header.png" alt="Website Change Request" />';
+        $message .= '<h4>Timesheet Details</h4>';
+        $message .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
+        $message .= "<tr style='background: #eee;'><td><strong>Name:</strong> </td><td>" . strip_tags($param['userData']['name']) . "</td></tr>";
+        $message .= "<tr><td><strong>Email:</strong> </td><td>" . strip_tags($param['userData']['email']) . "</td></tr>";
+        $message .= "<tr><td><strong>Clocked In Date/Time:</strong> </td><td>" . strip_tags(date('m/d/Y', strtotime($param['clock-in']['start']))) . "</td></tr>";
+        $message .= "<tr><td><strong>Clocked In Notes:</strong> </td><td>" . $param['clock-in']['start_notes'] . "</td></tr>";
+        $message .= "<tr><td><strong>Clocked Out Date/Time:</strong> </td><td>" .date('m/d/Y', strtotime($param['date'])).  "</td></tr>";
+        $message .= "<tr><td><strong>Clocked Out Notes:</strong> </td><td>" .$param['notes']. "</td></tr>";
+        $message .= "</table>";
+        $message .= "</body></html>";
 
         return $message;
     }
