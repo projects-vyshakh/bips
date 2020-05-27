@@ -16,6 +16,9 @@
 });*/
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::any('password/sendPasswordResetLink','Auth\CustomPasswordResetController@sendPasswordResetLink');
+Route::any('password/set_password','Auth\CustomPasswordResetController@showSetPassword');
+Route::any('password/handleSetNewPassword','Auth\CustomPasswordResetController@handleSetNewPassword');
 
 
 Auth::routes();
@@ -82,6 +85,7 @@ Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'agent'], function () {
 
     //Route::any('/handleClockIn','Attendance\ClockInController@handleClockIn');
     Route::any('/handleClockOut','Attendance\ClockOutController@handleClockOut');
+
 
     Route::get('/laravel-send-email', 'Attendance\AttendanceController@mail');
 

@@ -227,4 +227,22 @@ trait AlertMessages{
         return $msg;
     }
 
+    public function emailSendSuccessMessage($param){
+        if(!empty($param['email'])){
+            $msg    =   ['success' => $param['subject']." email has been successfully sent to ".$param['email']];
+        }
+        else{
+            $msg    =   ['success' => $param['subject']." email has been successfully sent"];
+        }
+
+        return $msg;
+
+    }
+    public function emailSendFailMessage(){
+        return ['error' => "Failed to sent the email. Please try again later."];
+    }
+    public function passwordSetSuccessMessage(){
+        return ['success'=>'Password has been updated successfully. Please login.'];
+    }
+
 }

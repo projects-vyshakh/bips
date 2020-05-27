@@ -189,7 +189,7 @@ class User extends Authenticatable
             $userData   =   User::where('users.email',$email)
                 ->leftJoin('users_details As ud','ud.user_id','=','users.id')
                 ->leftJoin('roles as r','r.id','=','users.roles')
-                ->select('users.id','users.name as name','users.email','r.short_name as role','r.name as role_name','r.id as role_id')->first();
+                ->select('users.id','users.uuid','users.name as name','users.email','r.short_name as role','r.name as role_name','r.id as role_id')->first();
 
             return $userData;
         }

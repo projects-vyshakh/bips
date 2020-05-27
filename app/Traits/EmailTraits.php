@@ -59,6 +59,33 @@ trait EmailTraits{
         mail($to,$subject,$message,$headers);
 
     }
+    public function passwordResetEmail($param){
+        $to         =   $param['userData']['email'];
+        $subject    =   "Password Email Reset Link";
+        $message    =   $this->passwordResetTemplate($param);
+
+        return $this->sendEmail($to, $subject, $message);
+
+    }
+
+    public function sendEmail($to, $subject, $message){
+
+        // Always set content-type when sending HTML email
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+        // More headers
+        $headers .= 'From: Crystalbn Networks <reports@crystalbn.com>' . "\r\n";
+
+
+        return true;
+
+        if(mail($to,$subject,$message,$headers)){
+            return true;
+        }
+        else return false;
+
+    }
 
 
     public function clockInEmailTemplate($param){
@@ -94,7 +121,7 @@ trait EmailTraits{
 
         $message = '<html><body>';
         //$message .= '<img src="//css-tricks.com/examples/WebsiteChangeRequestForm/images/wcrf-header.png" alt="Website Change Request" />';
-        $message .= '<h4>Timesheet Details</h4>';
+        $message .= '<h4>Password Reset Link</h4>';
         $message .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
         $message .= "<tr style='background: #eee;'><td><strong>Name:</strong> </td><td>" . strip_tags($param['userData']['name']) . "</td></tr>";
         $message .= "<tr><td><strong>Email:</strong> </td><td>" . strip_tags($param['userData']['email']) . "</td></tr>";
@@ -108,6 +135,20 @@ trait EmailTraits{
         $message .= "</body></html>";
 
         return $message;
+    }
+
+    //Password Reset Template
+    public function passwordResetTemplate($param){
+        $url    =   $param->getSchemeAndHttpHost().'/bips/password/set_password?uid='.$param['userData']['uuid'];
+        $message = '<html><body>';
+        //$message .= '<img src="//css-tricks.com/examples/WebsiteChangeRequestForm/images/wcrf-header.png" alt="Website Change Request" />';
+        $message .= '<h4>Password Reset Link</h4>';
+        $message .= '<p style="font-weight: bold">Dear '. $param['userData']['name'].', </p>';
+        $message .= '<p> To reset your account password <a href="'.$url.'" style="font-weight: bold">Click Here</a></p>';
+        $message .= "</body></html>";
+
+        return $message;
+
     }
 
 

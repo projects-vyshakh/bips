@@ -74,7 +74,7 @@
 
                 <div class="row mt-3">
                     <div class="col-12 text-center">
-                        <p> <a href="pages-recoverpw.html" class="text-muted ml-1">Forgot your password?</a></p>
+                        <p> <a href="{{ url('/password/reset') }}" class="text-muted ml-1">Forgot your password?</a></p>
 {{--                        <p class="text-muted">Don't have an account? <a href="register-employer" class="text-primary font-weight-medium ml-1">Employer</a> | <a href="register-employee" class="text-primary font-weight-medium ml-1">Employee</a></p>--}}
                     </div> <!-- end col -->
                 </div>

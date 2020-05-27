@@ -36,22 +36,21 @@
 
                         @include('alerts.flash-messages')
 
-                        <form method="POST" action="sendPasswordResetLink">
+                        <form method="POST" action="handleSetNewPassword" id="form">
+                            {{Form::hidden('uid', $uuid)}}
                             @csrf
 
                             <div class="form-group mb-3">
-                                <label for="emailaddress">Email address</label>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <label for="emailaddress">Password</label>
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password') }}" required  autofocus>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="emailaddress">Confirm Password</label>
+                                <input id="cpassword" type="password" class="form-control @error('cpassword') is-invalid @enderror" name="cpassword" value="{{ old('cpassword') }}" required  autofocus>
                             </div>
 
                             <div class="form-group mb-0 text-center">
-                                <button class="btn btn-primary btn-block" type="submit"> {{ __('Send Password Reset Link') }}</button>
+                                <button class="btn btn-primary btn-block" type="submit"> {{ __('Set New Password') }}</button>
                             </div>
 
                         </form>
@@ -83,6 +82,7 @@
 
 <script src="{{ asset('public/assets/js/vendor.min.js') }}" ></script>
 <script src="{{ asset('public/assets/js/app.min.js') }}" ></script>
+
 
 
 </body>
