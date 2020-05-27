@@ -5,6 +5,9 @@ $(document).ready(function(){
     var usersList =   function(){
         var table = $('#data-table').DataTable( {
             responsive: true,
+            "drawCallback": function( settings ) {
+                userDelete();
+            }
         } );
 
     }

@@ -14,7 +14,7 @@ class ClockIn extends Model
     public $currentDate;
     public $currentTime;
 
-    use AlertMessages;
+
     use FunctionTraits;
 
     protected  $table       =   "clock_in";

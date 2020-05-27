@@ -182,7 +182,6 @@ class User extends Authenticatable
         $data   =   User::leftJoin('users_details as ud','ud.uuid','=','users.uuid')
             ->leftJoin('roles as r','r.id','users.roles')
             ->select('users.*','users.status as users_status','ud.*','r.name as roles','r.short_name','r.status')
-            ->where('users.is_delete',0)
             ->get();
         return $data;
     }
@@ -201,7 +200,6 @@ class User extends Authenticatable
             $userData   =   User::where('users.uuid',$uuid)
                 ->leftJoin('users_details As ud','ud.user_id','=','users.id')
                 ->leftJoin('roles as r','r.id','=','users.roles')
-                ->where('users.is_delete',0)
                 ->select('users.id','users.name as name','users.email','users.status as user_status','r.short_name as role','r.name as role_name','r.id as role_id','ud.*')->first();
 
             //dd($userData);
@@ -232,9 +230,10 @@ class User extends Authenticatable
             $userData   =   User::where('users.id',$id)
                 ->leftJoin('users_details As ud','ud.user_id','=','users.id')
                 ->leftJoin('roles as r','r.id','=','users.roles')
-                ->where('users.is_delete',0)
-                ->select('users.id','users.uuid','users.name as name','users.email','users.status as user_status','r.short_name as role','r.name as role_name','r.id as role_id','ud.*')->first();
-
+                ->select('users.id','users.uuid','users.name as name','users.email',
+                    'users.status as user_status','r.short_name as role','r.name as role_name',
+                    'r.id as role_id','ud.*')
+                ->first();
             //dd($userData);
 
             return $userData;
