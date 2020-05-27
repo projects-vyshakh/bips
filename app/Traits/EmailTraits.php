@@ -46,39 +46,14 @@ trait EmailTraits{
         //$to      = "projects.vyshakh@gmail.com";
         $to      = "notificationscbn@gmail.com ,".$userEmailTo;
         $subject = "Timesheet Details - ".$param['userData']['name']. " (".$param['userData']['roles'].")";
-
-
-
-        // Always set content-type when sending HTML email
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-        // More headers
-        $headers .= 'From: Crystalbn Networks <reports@crystalbn.com>' . "\r\n";
-
         $this->sendEmail($to, $subject, $message);
-
-        mail($to,$subject,$message,$headers);
-
     }
     public function passwordResetEmail($param){
         $to         =   $param['userData']['email'];
         $subject    =   "Password Email Reset Link";
         $message    =   $this->passwordResetTemplate($param);
 
-        // Always set content-type when sending HTML email
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-        // More headers
-        $headers .= 'From: Crystalbn Networks <reports@crystalbn.com>' . "\r\n";
-
-        if(mail($to,$subject,$message,$headers)){
-            return true;
-        }
-        else return false;
-
-        //return $this->sendEmail($to, $subject, $message);
+        return $this->sendEmail($to, $subject, $message);
 
     }
 
