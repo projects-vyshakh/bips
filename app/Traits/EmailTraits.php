@@ -128,7 +128,6 @@ trait EmailTraits{
         $url    =   $param->getSchemeAndHttpHost().'/bips/password/set_password?uid='.$param['userData']['uuid'];
         $message = '<html><body>';
         //$message .= '<img src="//css-tricks.com/examples/WebsiteChangeRequestForm/images/wcrf-header.png" alt="Website Change Request" />';
-        $message .= '<h4>Password Reset Link</h4>';
         $message .= '<p style="font-weight: bold">Dear '. $param['userData']['name'].', </p>';
         $message .= '<p> To reset your account password <a href="'.$url.'" style="font-weight: bold">Click Here</a></p>';
         $message .= "</body></html>";
