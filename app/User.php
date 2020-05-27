@@ -73,9 +73,11 @@ class User extends Authenticatable
             return back()->with(['error'=>$this->notMatchMessage('Password and Confirm Passwprd')])->withInput();
         }
 
+        $checkEmailExists   =   $this->getUserDataWithEmail($email);
 
-
-
+        if(!empty($checkEmailExists) ){
+            return back()->with(['error'=>$email.' is already registered.'])->withInput();
+        }
 
         if(!isset($request['uuid']) || empty($request['uuid'])){
 
@@ -265,6 +267,15 @@ class User extends Authenticatable
 
         return $response;
 
+    }
+
+    public function getDelete($param){
+        if(isset($param['uuid']) && !empty($param['uuid'])){
+            UsersDetails::where('uuid', $param['uuid'])->delete();
+            User::where('uuid', $param['uuid'])->delete();
+        }
+
+        return true;
     }
 
 

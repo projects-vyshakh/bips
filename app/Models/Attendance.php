@@ -15,7 +15,6 @@ class Attendance extends Model
     protected  $table       =   "attendance";
     protected  $primaryKey  =   "id";
 
-    use AlertMessages;
     use FunctionTraits;
 
     public function addClockIn($request){
@@ -316,5 +315,13 @@ class Attendance extends Model
         }
 
 
+    }
+
+    public function getDelete($param){
+        if(isset($param['uuid']) && !empty($param['uuid'])){
+            Attendance::where('uuid', $param['uuid'])->delete();
+        }
+
+        return true;
     }
 }

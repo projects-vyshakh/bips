@@ -23,7 +23,7 @@ $(document).ready(function(){
                 showCancelButton: true,
                 cancelButtonClass: "btn-outline-danger",
                 confirmButtonClass: "btn-outline-info",
-                confirmButtonText: "Yes",
+                confirmButtonText: "Yes, Delete",
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function () {
@@ -36,12 +36,14 @@ $(document).ready(function(){
                     data: 'uuid='+uuid+'&_token='+_token,
                     success: function(data)
                     {
-                        if(data!=""){
-                            if(data['status'] == 'success'){
-                                swal(data['title'],data['message']+"!")
+
+                        swal(data['title'],data['message']+"!", data['status'])
+
+                        $('.confirm').click(function(){
+                            if(data['code'] == 200){
                                 location.reload();
                             }
-                        }
+                        });
 
                     }
                 });

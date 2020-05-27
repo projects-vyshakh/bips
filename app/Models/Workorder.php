@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\AlertMessages;
 use App\Traits\RolesAndPermissionScreens;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Webpatser\Uuid\Uuid;
@@ -90,17 +91,7 @@ class Workorder extends Model
         $createdBy          =   Auth::user()->id;
         $updatedBy          =   Auth::user()->id;
 
-        echo "Agent:".$agent;
-        echo "Customer:".$customer;
-        echo "AccNo:".$accNo;
-        echo "Phone:".$phone;
-        echo "SE:".$serviceAddress;
-        echo "OT:".$orderType;
-        echo "Od:".$orderDate;
-        echo "ON:".$orderNotes;
-
-
-
+        $uuidAgent          =   User::where('id', $agent)->select('uuid')->first();
 
         if(empty($agent) || empty($customer) || empty($accNo) || empty($phone)  || empty($serviceAddress) ||empty($orderType) || empty($orderDate)){
             return back()->with(['error'=>$this->insufficientData()])->withInput();
@@ -111,6 +102,7 @@ class Workorder extends Model
         if(empty($uuid)){
             $dataArray  =   [
                 'uuid'                      =>  Uuid::generate()->string,
+                'uuid_agent'                =>  $uuidAgent['uuid'],
                 'id_agent'                  =>  $agent,
                 'id_workorder_type'         =>  $orderType,
                 'customer_name'             =>  ucwords($customer),
@@ -180,5 +172,14 @@ class Workorder extends Model
 
         return $response;
 
+    }
+
+    public function getDelete($param){
+        if(isset($param['uuid']) && !empty($param['uuid'])){
+            //dd($param['uuid']);
+            Workorder::where('uuid_agent', $param['uuid'])->delete();
+        }
+
+        return true;
     }
 }
