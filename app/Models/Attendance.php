@@ -139,18 +139,18 @@ class Attendance extends Model
         $latestData     =   Attendance::orderBy('start','desc')->where('uuid', Auth::user()->uuid)->first();
         $data           =   Attendance::where('uuid', Auth::user()->uuid)->get();
 
+
+
         if(!empty($data)){
-            foreach($data as $value){
-                $start      =   $value['start'];
-                $end        =   $value['end'];
-                $breakTime  =   $value['break'];
-                $end        =   !empty($end)?$end: $today;
-                $diff       =   $this->dateTimeToYMDHMS(['dateTime1' => $start, 'dateTime2' => $end]);
-                $hours      =   $hours + $diff['hours'];
-                $minutes    =   $minutes + $diff['minutes'];
-                $seconds    =   $seconds + $diff['seconds'];
-                $break      =   $break + $breakTime;
-            }
+            $start      =   $latestData['start'];
+            $end        =   $latestData['end'];
+            $breakTime  =   $latestData['break'];
+            $end        =   !empty($end)?$end: $today;
+            $diff       =   $this->dateTimeToYMDHMS(['dateTime1' => $start, 'dateTime2' => $end]);
+            $hours      =   $hours + $diff['hours'];
+            $minutes    =   $minutes + $diff['minutes'];
+            $seconds    =   $seconds + $diff['seconds'];
+            $break      =   $break + $breakTime;
 
             if($seconds >= 60){
                 $minutes    =   $minutes + 1;

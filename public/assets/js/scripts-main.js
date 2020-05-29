@@ -44,7 +44,7 @@ $(document).ready(function(){
         $(".current-timer").timer( options ).start();
     }
 
-    var showTimer   =   function(){
+    var showTimer   =   function(action){
 
         $.ajax({
             type: "POST",
@@ -53,6 +53,8 @@ $(document).ready(function(){
             data: dataString,
             success: function (data) {
                 if(data.data != null){
+
+
                     var totalSec            =   data.timerInSeconds;
                     var clockedOutStatus    =   data.data.is_clocked_out;
                     var breakStart          =   data.data.is_break_start;
@@ -129,7 +131,8 @@ $(document).ready(function(){
 
                     }
                     else{
-                        $(".clocker-div").timer( options ).stop();
+                        //$(".clocker-div").timer(options).stop();
+                        $(".clocker-div").timer(0).stop();
                         clockedStatusArray['selector']          =   $('.clocked-status');
                         clockedStatusArray['text']              =   "CLOCKED-OUT";
                         clockedStatusArray['removeClass']       =   "badge-success";
@@ -207,7 +210,6 @@ $(document).ready(function(){
             data: dataString,
             success: function(data)
             {
-                console.log(data);
 
                 swal({
                     title:data['title'],
@@ -217,7 +219,7 @@ $(document).ready(function(){
 
 
 
-                showTimer();
+                showTimer(url);
             }
         });
 
@@ -253,7 +255,7 @@ $(document).ready(function(){
                     type: data['status']
                 });
 
-                showTimer();
+                showTimer(url);
 
 
 
@@ -352,7 +354,7 @@ $(document).ready(function(){
 
     alertManage();
     showCurrentTimer();
-    showTimer();
+    showTimer(null);
 
 
     addClockIn();
