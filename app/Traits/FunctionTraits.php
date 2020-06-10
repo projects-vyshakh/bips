@@ -22,6 +22,7 @@ trait FunctionTraits{
     use EmailTraits;
     use AlertMessages;
     use RolesTraits;
+    use RoleMenusTraits;
 
 
 
@@ -33,6 +34,7 @@ trait FunctionTraits{
         $time               =   "";
         $roleDetails        =   $this->getRolesById($idLoggedRole);
         $menus              =   Menu::where('parent_id', '=', 0)->orderBy('sort_order','ASC')->get();
+        $roleMenus          =   $this->getRoleMenusByRole($roleDetails['short_name']);
 
 
 
@@ -56,8 +58,8 @@ trait FunctionTraits{
             'rolesList'             =>  $rolesList,
             'clockIn'               =>  $clockIn,
             'time'                  =>  $time,
-            'menus'                 =>  $menus
-
+            'menus'                 =>  $menus,
+            'roleMenus'             =>  $roleMenus
         ];
 
     }

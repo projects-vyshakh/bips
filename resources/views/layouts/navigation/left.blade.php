@@ -8,20 +8,26 @@
                 <li class="menu-title">Navigation</li>
 
                 @foreach($menus as $menu)
-                    <li>
-                        <a href="{{$menu->url}}"  class="waves-effect">
-                            <i class="{{$menu->icon}}"></i>
-                            <span class="badge badge-success badge-pill float-right"></span>
-                            <span>{{ $menu->title }}</span>
-                        </a>
-                        @if(count($menu->childs))
-                            <ul class="nav-second-level" aria-expanded="false">
-                                @include('menu.menusub',['childs' => $menu->childs])
-                            </ul>
+                    @foreach($roleMenus as $roleMenu)
+                        @if($roleMenu['menus'] == $menu->slug)
+                            <li>
+                                <a href="{{$menu->url}}"  class="waves-effect">
+                                    <i class="{{$menu->icon}}"></i>
+                                    <span class="badge badge-success badge-pill float-right"></span>
+                                    <span>{{ $menu->title }}</span>
+                                </a>
+                                @if(count($menu->childs))
+                                    <ul class="nav-second-level" aria-expanded="false">
+                                        @include('menu.menusub',['childs' => $menu->childs])
+                                    </ul>
 
+                                @endif
+
+                            </li>
                         @endif
+                    @endforeach
 
-                    </li>
+
 
                 @endforeach
             </ul>
