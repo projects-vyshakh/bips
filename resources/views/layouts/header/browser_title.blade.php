@@ -1,1 +1,1 @@
-<title>Crystalbn | {{$currentScreenDetails['browser_title']}}</title>
+<title>Crystalbn @if(isset($currentScreenDetails['browser_title'])) | {{$currentScreenDetails['browser_title']}} @else  "" @endif</title>
