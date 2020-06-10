@@ -35,7 +35,7 @@ Route::get('/register-employee', 'Employee\EmployeeController@showRegister');
 Route::any('/handleRegisterEmployee', 'Employee\EmployeeController@handleRegister');
 
 
-Route::group([ 'middleware' => ['auth','web','rolesAndScreen'], 'prefix'=>'admin'], function () {
+Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'admin'], function () {
     Route::any('/dashboard','Admin\AdminController@showDashboard');
     Route::any('/manage-users','Users\UsersController@showManageUsers');
     Route::any('/add-users','Users\UsersController@showAddUser');
@@ -49,6 +49,9 @@ Route::group([ 'middleware' => ['auth','web','rolesAndScreen'], 'prefix'=>'admin
     Route::any('/manage-workorder','Workorder\WorkorderController@showManageWorkorder');
     Route::any('/add-workorder','Workorder\WorkorderController@showAddWorkorder');
     Route::any('/workordertype','Workorder\WorkorderController@showManageWorkorderType');
+
+    Route::any('/punch','Attendance\AttendanceController@showPunch');
+    Route::any('/timesheet','Attendance\AttendanceController@showTimeCards');
 
 
 
@@ -73,10 +76,14 @@ Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'admin'], function () {
 
 //Agents Controller
 //---------------------------------------------------------------------------------
-Route::group([ 'middleware' => ['auth','web','rolesAndScreen'], 'prefix'=>'agent'], function () {
+Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'agent'], function () {
     Route::any('/dashboard','Users\UsersController@showDashboard');
     Route::any('/punch','Attendance\AttendanceController@showPunch');
-    Route::any('/time-cards','Attendance\AttendanceController@showTimeCards');
+    Route::any('/timesheet','Attendance\AttendanceController@showTimeCards');
+    Route::any('/manage-workorder','Workorder\WorkorderController@showManageWorkorder');
+    Route::any('/add-workorder','Workorder\WorkorderController@showAddWorkorder');
+
+    Route::any('/handleAddWorkorder','Workorder\WorkorderController@handleAddWorkorder');
 
 
 });
@@ -126,6 +133,13 @@ Route::group([ 'middleware' => ['auth','web']], function () {
     Route::any('/handleBreak','Attendance\AttendanceController@handleBreak');
 
 });
+
+
+Route::get('menus','MenuController@index');
+
+Route::get('menus-show','MenuController@show');
+
+Route::post('menus','MenuController@store')->name('menus.store');
 
 
 

@@ -4,11 +4,14 @@ $(document).ready(function(){
 
     var usersList =   function(){
         var table = $('#data-table').DataTable( {
-            responsive: true,
+            "responsive": true,
+            "scrollX": true,
             "drawCallback": function( settings ) {
                 userDelete();
             }
         } );
+
+
 
     }
 

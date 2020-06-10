@@ -3,7 +3,7 @@
     <div class="col-lg-12">
         <div class="card card-body">
             <h4 class="card-title">Attendance Details</h4>
-            <table id="data-table" class="table table-striped table-bordered" style="width:100%">
+            <table id="data-table" class="table  table-striped display responsive nowrap" style="width:100%">
                 <thead>
                     <tr class="text-center font-weight-bolder">
                         <th>SL.NO</th>
@@ -42,7 +42,7 @@
                 @if(!empty($data))
                 <tfoot>
                 <tr class="text-center">
-                    <th></th>
+
                     <th></th>
                     <th></th>
                     <th></th>

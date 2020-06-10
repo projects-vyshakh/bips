@@ -17,22 +17,27 @@ class Workorder extends Model
     use AlertMessages;
     use RolesAndPermissionScreens;
 
-    public function getAllWorkorder(){
+    public function getAllWorkorder($uuid=null){
 
         $idRole         =   Auth::user()['roles'];
         $roles          =   $this->getRolesDetails($idRole);
 
-
-        if($roles['short_name'] == "admin"){
-
-            $data   =   Workorder::leftJoin('users as u','u.id','=','workorder.id_agent')
-                ->leftJoin('workorder_type as wt','wt.id','=','workorder.id_workorder_type')
-                ->where('workorder.is_delete','<>',1)
-                ->select('u.id','u.name','workorder.*','wt.*')
-                ->get();
-        }
-        else{
-            return "";
+        switch($roles['short_name']){
+            case 'admin':
+                $data   =   Workorder::leftJoin('users as u','u.id','=','workorder.id_agent')
+                    ->leftJoin('workorder_type as wt','wt.id','=','workorder.id_workorder_type')
+                    ->where('workorder.is_delete','<>',1)
+                    ->select('u.id','u.name','workorder.*','wt.*')
+                    ->get();
+                break;
+            case 'agent':
+                $data   =   Workorder::leftJoin('users as u','u.id','=','workorder.id_agent')
+                    ->leftJoin('workorder_type as wt','wt.id','=','workorder.id_workorder_type')
+                    ->where('workorder.is_delete','<>',1)
+                    ->select('u.id','u.name','workorder.*','wt.*')
+                    ->where('workorder.uuid_agent', $uuid)
+                    ->get();
+                break;
         }
 
         return $data;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Menu;
 use App\Models\Attendance;
 use App\Models\BusinessKey;
 use App\Models\Roles;
@@ -34,6 +35,10 @@ class UsersController extends Controller
         $parameters =   $this->generalFunctions($request);
 
         //dd($parameters);
+        $menus = Menu::where('parent_id', '=', 0)->get();
+
+        $parameters['menus']    =   $menus;
+
 
 
         return view('users.dashboard',$parameters);

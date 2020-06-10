@@ -8,8 +8,10 @@ use App\Models\Workorder;
 use App\Models\WorkorderType;
 use App\Traits\FunctionTraits;
 use App\User;
+use Cassandra\Exception\UnauthorizedException;
 use http\Exception\RuntimeException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WorkorderController extends Controller
 {
@@ -46,7 +48,7 @@ class WorkorderController extends Controller
 
     public function showManageWorkorder(Request $request){
         $parameters =   $this->generalFunctions($request);
-        $data       =   $this->workorder->getAllWorkorder();
+        $data       =   $this->workorder->getAllWorkorder(Auth::user()->uuid);
 
         $parameters['data'] =   $data;
 

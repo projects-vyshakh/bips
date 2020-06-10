@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Http\Controllers\Controller;
+use App\Menu;
 use App\Models\ClockIn;
 use App\Models\ClockOut;
 use App\Models\RolesScreen;
@@ -17,9 +18,10 @@ trait FunctionTraits{
 
 
     use ScreenTraits;
-    use RolesAndPermissionScreens;
+    use RolesAndPermissionScreens; //Needs to depreciate
     use EmailTraits;
     use AlertMessages;
+    use RolesTraits;
 
 
 
@@ -29,8 +31,8 @@ trait FunctionTraits{
         $currentUrl         =   $request->path();
         $currentDateTime    =   date('Y-m-d h:i:s');
         $time               =   "";
-
-
+        $roleDetails        =   $this->getRolesById($idLoggedRole);
+        $menus              =   Menu::where('parent_id', '=', 0)->orderBy('sort_order','ASC')->get();
 
 
 
@@ -53,7 +55,8 @@ trait FunctionTraits{
             'roles'                 =>  $roles,
             'rolesList'             =>  $rolesList,
             'clockIn'               =>  $clockIn,
-            'time'                  =>  $time
+            'time'                  =>  $time,
+            'menus'                 =>  $menus
 
         ];
 

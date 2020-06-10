@@ -18,7 +18,6 @@
                 @else
                     <tr>
                         <th>Sl.No</th>
-                        <th>Agent</th>
                         <th>Customer</th>
                         <th>Phone</th>
                         <th>Service Address</th>
@@ -54,7 +53,6 @@
                         @foreach($data as $index=>$value)
                             <tr>
                                 <td>{{$index = $index + 1}}</td>
-                                <td>{{$value['name']}}</td>
                                 <td>{{$value['customer_name']}}</td>
                                 <td>{{$value['customer_contact']}}</td>
                                 <td>{{$value['customer_service_address']}}</td>

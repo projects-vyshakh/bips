@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     use FunctionTraits;
-    use AlertMessages;
+
 
 
     public $users           =   "";
@@ -41,5 +41,5 @@ class AdminController extends Controller
 
     }
 
-    
+
 }
