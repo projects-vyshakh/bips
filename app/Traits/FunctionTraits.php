@@ -23,6 +23,7 @@ trait FunctionTraits{
     use AlertMessages;
     use RolesTraits;
     use RoleMenusTraits;
+    use UserTraits;
 
 
 

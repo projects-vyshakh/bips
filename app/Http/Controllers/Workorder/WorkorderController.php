@@ -58,18 +58,14 @@ class WorkorderController extends Controller
     }
 
     public function showAddWorkorder(Request $request){
+        $role       =   $this->getRolesById(Auth::user()->roles);
         $parameters =   $this->generalFunctions($request);
-        $agents     =   $this->users->getUserDataWithRole('agent');
         $orderType  =   $this->workorderType->getWorkorderTypeForSelect();
         $orderData  =   $this->workorder->getWorkorderWithUuid($request['id']);
 
-
-
-        $parameters['agents']       =   $agents;
+        $parameters['agents']       =   ($role['short_name'] == 'admin')?$this->userToOptionalArray():$this->userToOptionalArray(Auth::user()->id);
         $parameters['orderType']    =   $orderType;
         $parameters['data']         =   $orderData;
-
-
 
         return view('workorder.add',$parameters);
     }
