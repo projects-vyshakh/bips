@@ -199,9 +199,12 @@ class Attendance extends Model
                 $end            =    !empty($end)?$end:0;
 
                 $convertedDateTime      =   $this->dateTimeToYMDHMS(['dateTime1'=>$start, 'dateTime2'=>$end]);
-                $hours                  =   $convertedDateTime['hours'];
+                $days                   =   $convertedDateTime['days'];
+                $hours                  =   $convertedDateTime['hours'] + ($days*24);
                 $minutes                =   $convertedDateTime['minutes'];
                 $seconds                =   $convertedDateTime['seconds'];
+
+
 
                 $totalHours     =   $totalHours + $hours;
                 $totalMinutes   =   $totalMinutes + $minutes;
