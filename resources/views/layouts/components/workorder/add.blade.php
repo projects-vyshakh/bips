@@ -3,7 +3,7 @@
     @if(!empty($data))
         <div class="col-lg-12 col-xl-12">
         <div class="card-box">
-            {!! Form::open(['url' => 'admin/handleAddWorkorder','class'=>'parsley-form','name'=>'profileForm','id'=>'form']) !!}
+            {!! Form::open(['url' => 'handleAddWorkorder','class'=>'parsley-form','name'=>'profileForm','id'=>'form']) !!}
             {!! Form::hidden('uuid',$data['wo_uuid']) !!}
             <div class="row">
                 <div class="col-md-4">
@@ -88,7 +88,7 @@
     @else
         <div class="col-lg-12 col-xl-12">
             <div class="card-box">
-                {!! Form::open(['url' => 'admin/handleAddWorkorder','class'=>'parsley-form','name'=>'profileForm','id'=>'form']) !!}
+                {!! Form::open(['url' => 'handleAddWorkorder','class'=>'parsley-form','name'=>'profileForm','id'=>'form']) !!}
                 {!! Form::hidden('uuid','') !!}
                 <div class="row">
                     <div class="col-md-4">

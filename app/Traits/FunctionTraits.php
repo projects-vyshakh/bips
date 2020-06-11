@@ -34,7 +34,7 @@ trait FunctionTraits{
         $time               =   "";
         $roleDetails        =   $this->getRolesById($idLoggedRole);
         $menus              =   Menu::where('parent_id', '=', 0)->orderBy('sort_order','ASC')->get();
-        $roleMenus          =   $this->getRoleMenusByRole($roleDetails['short_name']);
+        $roleMenus          =   $this->getActiveRoleMenusByRole($roleDetails['short_name']);
 
 
 

@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Traits\AlertMessages;
 use App\Traits\RolesAndPermissionScreens;
+use App\Traits\RolesTraits;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Webpatser\Uuid\Uuid;
 
 class Workorder extends Model
@@ -15,12 +17,12 @@ class Workorder extends Model
     protected $primaryKey   =   "id";
 
     use AlertMessages;
-    use RolesAndPermissionScreens;
+    use RolesTraits;
 
     public function getAllWorkorder($uuid=null){
 
         $idRole         =   Auth::user()['roles'];
-        $roles          =   $this->getRolesDetails($idRole);
+        $roles          =   $this->getRolesById($idRole);
 
         switch($roles['short_name']){
             case 'admin':
@@ -59,7 +61,7 @@ class Workorder extends Model
 
     public function getWorkorderWithUuid($uuid){
         $idRole         =   Auth::user()['roles'];
-        $roles          =   $this->getRolesDetails($idRole);
+        $roles          =   $this->getRolesById($idRole);
 
         if($roles['short_name'] == "admin"){
             if(!empty($uuid)){
@@ -84,6 +86,7 @@ class Workorder extends Model
 
     public function addWorkorder($request){
         //dd($request);
+        $role               =   $this->getRolesById(Auth::user()->roles);
         $agent              =   $request['agent'];
         $customer           =   $request['cust_name'];
         $accNo              =   $request['accno'];
@@ -125,7 +128,7 @@ class Workorder extends Model
             ];
 
             if(Workorder::insert($dataArray)){
-                return redirect('admin/manage-workorder')->with($this->createdSuccessMessage('Work Order'));
+                return redirect($role['short_name'].'/manage-workorder')->with($this->createdSuccessMessage('Work Order'));
             }
             else{
                 return back()->with(['error'=>$this->insufficientData()])->withInput();
@@ -146,7 +149,7 @@ class Workorder extends Model
             ];
 
             if(Workorder::where('uuid',$uuid)->update($dataArray)){
-                return redirect('admin/manage-workorder')->with($this->updateSuccessMessage('Work Order'));
+                return redirect($role['short_name'].'/manage-workorder')->with($this->updateSuccessMessage('Work Order'));
             }
             else{
                 return back()->with(['error'=>$this->insufficientData()])->withInput();

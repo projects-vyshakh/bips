@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 
 use App\RoleMenu;
 use App\Traits\AlertMessages;
+use App\Traits\MenuTraits;
+use App\Traits\RoleMenusTraits;
 use App\Traits\RolesTraits;
 use Closure;
 use Illuminate\Support\Facades\Auth;
@@ -21,54 +23,33 @@ class CheckRoles
 
     use AlertMessages;
     use RolesTraits;
+    use MenuTraits;
+    use RoleMenusTraits;
 
     public function handle($request, Closure $next)
     {
-
-        $roleId      =   Auth::user()->roles;
-        $currentUrl =   $request->path();
-        $idScreen   =   "";
-
-        $roleDetails    =   $this->getRolesById($roleId);
-        if(empty($roleDetails)){
-            return redirect('login')->with(["error"=>$this->pageAccessDenied()]);
-        }
-
-        $roleMenus  =   RoleMenu::where('roles', $roleDetails['short_name'])->get();
-        if(empty($permittedMenus)){
-            return redirect('login')->with(["error"=>$this->pageAccessDenied()]);
-        }
-
-        foreach($roleMenus as $menus){
-
-        }
+        $roles      =   $this->getRolesById(Auth::user()->roles);
+        $currentUrl =   str_replace($roles['short_name']."/","", $request->path());
 
 
-        $screenData =   Screens::where('url',$currentUrl)->where('is_screen_active','Y')->first();
+        if(!empty($currentUrl)){
+            $menu  =   $this->getMenuByUrl($currentUrl)->first();
 
+            if(empty($menu)){
+                return redirect('login')->with($this->contactAdminMessage());
+            }
+            $activeMenu =   $this->getActiveRoleMenusByRoleMenu($roles['short_name'], $menu->slug);
 
-
-
-        if(!empty($screenData)){
-
-
-
-            $rolesScreensData   =   RolesScreen::where('role_id',$roles)->where('screen_id',$screenData['id'])->where('is_active','Y')->first();
-
-
-
-            if(!empty($rolesScreensData)){
+            if(count($activeMenu) > 0){
                 return $next($request);
             }
             else{
-                return back()->with(["error"=>$this->pageAccessDenied()]);
+                return back()->with($this->pageAccessDenied());
             }
         }
         else{
-            return redirect('login')->with(["error"=>$this->pageAccessDenied()]);
+            return redirect('login')->with($this->contactAdminMessage());
         }
-
-
 
 
     }

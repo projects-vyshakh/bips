@@ -43,9 +43,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getUsers(){
-
-    }
 
 
 
@@ -60,7 +57,7 @@ class User extends Authenticatable
         $role               =   $request['role'];
         $password           =   $request['password'];
         $cpassword          =   $request['cpassword'];
-        //$password           =   "bips_".$lastName.$phone;
+
 
 
 
@@ -75,7 +72,7 @@ class User extends Authenticatable
 
         $checkEmailExists   =   $this->getUserDataWithEmail($email);
 
-        if(!empty($checkEmailExists) ){
+        if(!empty($checkEmailExists) && empty($request['uuid']) ){
             return back()->with(['error'=>$email.' is already registered.'])->withInput();
         }
 

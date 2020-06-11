@@ -30,18 +30,13 @@ class UsersController extends Controller
 
     }
 
+
     public function showDashboard(Request $request){
 
         $parameters =   $this->generalFunctions($request);
 
-        //dd($parameters);
-        $menus = Menu::where('parent_id', '=', 0)->get();
-
-        $parameters['menus']    =   $menus;
-
-
-
-        return view('users.dashboard',$parameters);
+        //return view('users.dashboard',$parameters);
+        return view('dashboard',$parameters);
 
     }
 
@@ -63,10 +58,6 @@ class UsersController extends Controller
             $accountStatus  =   $this->businessKey->getBusinessKey("STATUS");
             $userData       =   $this->users->getUserDataWithUuid($request['id']);
             $parameters     =   $this->generalFunctions($request);
-
-
-
-
             $parameters['accountStatus']    =   $accountStatus;
             $parameters['data']             =   $userData;
 

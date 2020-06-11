@@ -6,6 +6,7 @@
             <!-- end page title -->
 
             {{--Main content area--}}
+            @include('alerts.flash-messages')
             @yield('contents')
         </div>
     </div>

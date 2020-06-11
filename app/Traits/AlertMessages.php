@@ -18,8 +18,8 @@ trait AlertMessages{
     }
 
     public function pageAccessDenied(){
-        $message    =   "Your access to this page is restricted. Please contact administrator.";
-        return $message;
+        return  ["error"=>"Your access to this page is restricted. Please contact administrator."];
+
     }
 
     public function saveSuccessMessage($param){
@@ -141,7 +141,7 @@ trait AlertMessages{
             $msg    =   ["success"=>"Data created successfully."];
         }
 
-        return $data;
+        return $msg;
 
     }
 
@@ -244,5 +244,10 @@ trait AlertMessages{
     public function passwordSetSuccessMessage(){
         return ['success'=>'Password has been updated successfully. Please login.'];
     }
+
+    public function contactAdminMessage(){
+        return ['warning'=>'Something went wrong. Please contact administrator.'];
+    }
+
 
 }

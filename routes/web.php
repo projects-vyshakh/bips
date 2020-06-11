@@ -35,8 +35,8 @@ Route::get('/register-employee', 'Employee\EmployeeController@showRegister');
 Route::any('/handleRegisterEmployee', 'Employee\EmployeeController@handleRegister');
 
 
-Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'admin'], function () {
-    Route::any('/dashboard','Admin\AdminController@showDashboard');
+Route::group([ 'middleware' => ['auth','web','checkroles'], 'prefix'=>'admin'], function () {
+    Route::any('/dashboard','Users\UsersController@showDashboard');
     Route::any('/manage-users','Users\UsersController@showManageUsers');
     Route::any('/add-users','Users\UsersController@showAddUser');
 
@@ -76,7 +76,7 @@ Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'admin'], function () {
 
 //Agents Controller
 //---------------------------------------------------------------------------------
-Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'agent'], function () {
+Route::group([ 'middleware' => ['auth','web','checkroles'], 'prefix'=>'agent'], function () {
     Route::any('/dashboard','Users\UsersController@showDashboard');
     Route::any('/punch','Attendance\AttendanceController@showPunch');
     Route::any('/timesheet','Attendance\AttendanceController@showTimeCards');
@@ -84,6 +84,9 @@ Route::group([ 'middleware' => ['auth','web'], 'prefix'=>'agent'], function () {
     Route::any('/add-workorder','Workorder\WorkorderController@showAddWorkorder');
 
     Route::any('/handleAddWorkorder','Workorder\WorkorderController@handleAddWorkorder');
+
+    Route::any('/manage-users','Users\UsersController@showManageUsers');
+    Route::any('/add-users','Users\UsersController@showAddUser');
 
 
 });
@@ -109,6 +112,8 @@ Route::group([ 'middleware' => ['auth','web']], function () {
     Route::any('/handleAddPayments','Payments\PaymentController@handleAddPayments');
     Route::any('/handleAddFiles','Uploads\UploadsController@handleAddFiles');
 //    Route::any('/handleVacancyStatusChange','Vacancy\VacancyController@handleVacancyStatusChange');
+
+    Route::any('/handleAddWorkorder','Workorder\WorkorderController@handleAddWorkorder');
 });
 
 
