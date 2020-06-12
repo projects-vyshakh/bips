@@ -3,15 +3,16 @@
     <div class="col-lg-12">
         <div class="card card-body">
             <h4 class="card-title">Attendance Details</h4>
-            <table id="data-table" class="table  table-striped display responsive nowrap" style="width:100%">
+            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                 <thead>
-                    <tr class="text-center font-weight-bolder">
-                        <th>SL.NO</th>
-                        <th>CLOCKED-IN</th>
-                        <th>CLOCKED-OUT</th>
-                        <th>WORK HOURS</th>
-                        <th>BREAK TIME</th>
-                    </tr>
+                <tr class="text-center font-weight-bolder">
+                    <th>SL.NO</th>
+                    <th>CLOCKED-IN</th>
+                    <th>CLOCKED-OUT</th>
+                    <th>WORK HOURS</th>
+                    <th>BREAK TIME</th>
+                    <th>PREVIEW</th>
+                </tr>
 
                 </thead>
                 <tbody>
@@ -35,26 +36,30 @@
                             @endif
                             <td class="font-weight-bold">{{round($value['worked_hours'],1)}}</td>
                             <td class="font-weight-bold">{{round($value['break'],1)}}</td>
+                            <td><a href="" title="Preview Timesheet"><i class="remixicon-search-eye-line "></i> </a> </td>
                         </tr>
                     @endforeach
                 @endif
                 </tbody>
                 @if(!empty($data))
-                <tfoot>
-                <tr class="text-center">
+                    <tfoot>
+                    <tr class="text-center">
 
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th class="font-weight-bolder ">Total Working Hours</th>
-                    <th class="font-weight-bolder text-success">{{$value['total_hours']}}</th>
-                    {{--<th class="font-weight-bolder ">Net Working Hours</th>
-                    <th class="font-weight-bolder text-success">{{$value['net_hours']}}</th>--}}
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="font-weight-bolder ">Total Working Hours</th>
+                        <th class="font-weight-bolder text-success">{{$value['total_hours']}}</th>
+                        {{--<th class="font-weight-bolder ">Net Working Hours</th>
+                        <th class="font-weight-bolder text-success">{{$value['net_hours']}}</th>--}}
 
-                </tr>
-                </tfoot>
-                 @endif
+                    </tr>
+                    </tfoot>
+                @endif
             </table>
+
+
         </div>
 
 
@@ -65,6 +70,7 @@
     @include('layouts.components.scripts.datatables.tables')
     @include('layouts.components.scripts.sweetalert.sweetalert')
 
-    <script src="../public/assets/js/users/manage.js"></script>
     <script src="../public/assets/js/attendance/timecards.js"></script>
+
+
 @endsection
