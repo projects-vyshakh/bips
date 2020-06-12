@@ -67,8 +67,10 @@ $(document).ready(function(){
                     if(totalSec > 0){
                         var options = {
                             timerCounter: totalSec*1000,
-                            onTick: function() {
-                                //console.log(this.counter);
+                            timerTarget: 54000000, // target set to 15 hrs, in milliseconds
+                            onTargetReached: function() {
+                                this.stop(); // stop timer after 10 seconds
+                                addClockInOutExtended('handleClockOut', 'Auto Clocked Out');
                             },
                         };
                     }
@@ -215,6 +217,10 @@ $(document).ready(function(){
                     title:data['title'],
                     text: data['message'],
                     type: data['status']
+                });
+
+                $('.confirm').click(function(e){
+                    location.href = "punch";
                 });
 
 
