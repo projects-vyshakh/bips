@@ -151,6 +151,8 @@ class Attendance extends Model
             $minutes    =   $minutes + $diff['minutes'];
             $seconds    =   $seconds + $diff['seconds'];
             $break      =   $break + $breakTime;
+            $breakInHours   =   $break/60;
+
 
             if($seconds >= 60){
                 $minutes    =   $minutes + 1;
@@ -160,11 +162,18 @@ class Attendance extends Model
                 $hours    =   $hours + 1;
                 $minutes  =   $minutes - 60;
             }
+
+
         }
 
         $time   =    $hours.":".$minutes.":".$seconds;
 
 
+
+        if(!empty($break)){
+            //use big H, otherwise timer will show the different format in view.
+            $time   =   date('H:i:s ',strtotime($time.' -'.$break.' minutes'));
+        }
 
 
         //Conversion of time to seconds
